@@ -1,5 +1,5 @@
 /* Offline cache for the VSO app. Bump VERSION when files change. */
-var VERSION = "vso-v4";
+var VERSION = "vso-v5";
 var FILES = ["./", "index.html", "style.css", "core.js", "app.js", "vendor/jspdf.umd.min.js",
   "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png"];
 
