@@ -251,7 +251,7 @@
     var notesTop = pricingEnd - 12 * RH;
     var remH = Math.max(4 * RH, notesTop - RH - ry);
     rect(RX, ry, RW, remH);
-    txt(d.remarks, RX, ry, RW, remH, { pad: 4, top: true, size: 11 }); /* same size as RETAIL CUSTOMER ORDER; shrinks only if text is too long */
+    txt(d.remarks, RX, ry, RW, remH, { pad: 4, top: true, size: 17 }); /* 17 pt (Wan); shrinks only if text is too long */
     rect(RX, notesTop, RW, pricingEnd - notesTop);
     var ny = notesTop + 2;
     ny += para("Please Note:", RX + 3, ny, RW - 6, FS * 0.92, true);
