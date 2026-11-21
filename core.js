@@ -305,8 +305,21 @@
     return y;
   }
 
+  /* Fields typed as capital letters. Not capitalised: email, dates and signature images. */
+  var NO_CAPS = { email: 1, date: 1, delivery: 1, sig_customer: 1, sig_exec: 1 };
+  function isCapsKey(k) { return !NO_CAPS[k]; }
+  function capsCopy(d) {
+    var o = {};
+    Object.keys(d || {}).forEach(function (k) {
+      var v = d[k];
+      o[k] = typeof v === "string" && isCapsKey(k) ? v.toUpperCase() : v;
+    });
+    return o;
+  }
+
   /* Fit everything on one A4 page: end-y is linear in row height, so solve for it. */
-  function buildPdf(jsPDF, d) {
+  function buildPdf(jsPDF, d0) {
+    var d = capsCopy(d0); /* PDF text is always CAPITALS (except email), even for older saved orders */
     var limit = PH - M;
     function endAt(rh) { return draw(new jsPDF({ unit: "pt", format: "a4" }), d, rh); }
     /* secant iterations, then step down until it fits */
@@ -332,7 +345,7 @@
 
   return {
     ACC: ACC, accKey: accKey, NOTES: NOTES, COMPANY: COMPANY, num: num, compute: compute, fmtAmt: fmtAmt,
-    isNumText: isNumText, amtOrText: amtOrText,
+    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy,
     fmtDate: fmtDate, today: today, emptyOrder: emptyOrder, fileName: fileName, buildPdf: buildPdf, money: money
   };
 });

@@ -70,16 +70,17 @@
       input = el("input", { "data-k": f.key, type: f.type });
       if (f.mode) input.setAttribute("inputmode", f.mode);
     }
+    if (f.type !== "select" && V.isCapsKey(f.key)) input.setAttribute("autocapitalize", "characters");
     return el("label", { class: "f" }, [el("span", { text: f.label }), input]);
   }
   function moneyRow(key, label, code, o) {
     o = o || {};
     var left = o.freeLabel
-      ? el("input", { class: "lblin", "data-k": key + "_label", placeholder: o.placeholder || "Other item (type name)" })
+      ? el("input", { class: "lblin", "data-k": key + "_label", autocapitalize: "characters", placeholder: o.placeholder || "Other item (type name)" })
       : el("div", { class: "lbl" }, [code ? el("span", { class: "code", text: code }) : null, document.createTextNode(label)]);
     var inp = el("input", { "data-k": key, type: "text", inputmode: o.text ? "text" : "decimal", placeholder: "0.00" });
     if (o.pct) inp.setAttribute("placeholder", "%");
-    if (o.text) { inp.setAttribute("placeholder", "Amount or text"); inp.style.textAlign = "left"; }
+    if (o.text) { inp.setAttribute("placeholder", "Amount or text"); inp.setAttribute("autocapitalize", "characters"); inp.style.textAlign = "left"; }
     return el("div", { class: "money" }, [left, inp]);
   }
   function calcLine(id, label, big) {
@@ -212,7 +213,17 @@
   function onInput(e) {
     var k = e.target.getAttribute && e.target.getAttribute("data-k");
     if (!k || !current) return;
-    current.data[k] = e.target.value;
+    var t = e.target;
+    /* typed text becomes CAPITAL letters, except email, dates, dropdowns and signatures */
+    if (V.isCapsKey(k) && (t.tagName === "TEXTAREA" || (t.tagName === "INPUT" && /^(text|tel)$/.test(t.type)))) {
+      var up = t.value.toUpperCase();
+      if (up !== t.value) {
+        var s = t.selectionStart, en = t.selectionEnd;
+        t.value = up;
+        try { t.setSelectionRange(s, en); } catch (err) { /* not selectable */ }
+      }
+    }
+    current.data[k] = t.value;
     refreshCalc();
     scheduleSave();
   }
