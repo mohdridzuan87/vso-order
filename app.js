@@ -306,7 +306,7 @@
   function newOrder() {
     var o = { id: uid(), updated: Date.now(), data: V.emptyOrder() };
     var last = orders[0] && orders[0].data;
-    if (last) ["outlet_code", "outlet_address", "sa_name", "sa_staff", "sig_name", "sig_desig"].forEach(function (k) {
+    if (last) ["outlet_code", "sa_name", "sa_staff", "sig_name", "sig_desig"].forEach(function (k) {
       if (last[k]) o.data[k] = last[k];
     });
     orders.unshift(o); saveAll(orders);

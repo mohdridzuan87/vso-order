@@ -86,7 +86,9 @@
     var t = new Date();
     return t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, "0") + "-" + String(t.getDate()).padStart(2, "0");
   }
-  function emptyOrder() { return { date: today() }; }
+  var OUTLET_ADDRESS = "LOT 7159, 8, JLN KLANG BANTING, TAMAN PERWIRA, 42500 TELOK PANGLIMA GARANG, SELANGOR";
+  /* new orders start with the outlet address filled in; it can still be edited */
+  function emptyOrder() { return { date: today(), outlet_address: OUTLET_ADDRESS }; }
 
   function fileName(d) {
     var parts = ["VSO", d.orderno || "", d.name || "", fmtDate(d.date).replace(/\//g, "-")];
@@ -373,7 +375,7 @@
 
   return {
     ACC: ACC, accKey: accKey, NOTES: NOTES, COMPANY: COMPANY, num: num, compute: compute, fmtAmt: fmtAmt,
-    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, REQUIRED: REQUIRED, validate: validate,
+    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS, REQUIRED: REQUIRED, validate: validate,
     fmtDate: fmtDate, today: today, emptyOrder: emptyOrder, fileName: fileName, buildPdf: buildPdf, money: money
   };
 });
