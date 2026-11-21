@@ -66,6 +66,7 @@
       f.options.forEach(function (o) { input.appendChild(el("option", { value: o, text: o || "- select -" })); });
     } else if (f.type === "textarea") {
       input = el("textarea", { "data-k": f.key, rows: "3" });
+      if (f.ph) input.setAttribute("placeholder", f.ph);
     } else {
       input = el("input", { "data-k": f.key, type: f.type });
       if (f.ph) input.setAttribute("placeholder", f.ph);
@@ -136,7 +137,7 @@
     } else if (kind === "signoff") {
       b.push(field(T("draft_no", "Booking paid vide Cash / Cheque / Credit card Sales Draft No.")));
       b.push(field(T("receipt", "Receipt No.")));
-      b.push(field(T("remarks", "Remarks", { type: "textarea" })));
+      b.push(field(T("remarks", "Remarks", { type: "textarea", ph: "Loan Amount?\nTenure?" })));
       b.push(sub("Authorised executive"));
       b.push(field(T("sig_name", "Name")), field(T("sig_desig", "Designation")));
       b.push(sigPad("sig_customer", "Customer signature"), sigPad("sig_exec", "Authorised executive signature"));

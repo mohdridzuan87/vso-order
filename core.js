@@ -313,7 +313,7 @@
     ["email", "Email"], ["tel_mobile", "Tel (Mobile)"], ["selling", "Selling Price"],
     ["reg_fee", "Registration / Ownership Endorsement Fee"], ["road_tax", "Road Tax / Haulage Permit Fee"],
     ["ins_amt", "Insurance - Amount Insured"], ["model_code", "Model Code"], ["model_desc", "Model Description"],
-    ["colour_code", "Colour Code"], ["colour_desc", "Colour Description"]
+    ["colour_code", "Colour Code"], ["colour_desc", "Colour Description"], ["remarks", "Remarks"]
   ];
   function isFilled(v) { return v !== undefined && v !== null && String(v).trim() !== ""; }
   /* returns [{key, label, msg}] for everything still missing; empty list = ready for PDF.
