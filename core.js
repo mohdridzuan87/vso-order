@@ -305,6 +305,34 @@
     return y;
   }
 
+  /* Fields that must be filled before a PDF can be made. [key, label] */
+  var REQUIRED = [
+    ["name", "Name"], ["address", "Address"], ["postcode", "Post Code"], ["ic", "IC / Biz Reg / Passport No"],
+    ["email", "Email"], ["tel_mobile", "Tel (Mobile)"], ["selling", "Selling Price"],
+    ["reg_fee", "Registration / Ownership Endorsement Fee"], ["road_tax", "Road Tax / Haulage Permit Fee"],
+    ["ins_amt", "Insurance - Amount Insured"], ["model_code", "Model Code"], ["model_desc", "Model Description"],
+    ["colour_code", "Colour Code"], ["colour_desc", "Colour Description"]
+  ];
+  function isFilled(v) { return v !== undefined && v !== null && String(v).trim() !== ""; }
+  /* returns [{key, label, msg}] for everything still missing; empty list = ready for PDF.
+     "0" counts as filled (e.g. road tax 0), a blank does not. */
+  function validate(d) {
+    var out = [];
+    REQUIRED.forEach(function (r) {
+      var v = d[r[0]];
+      if (!isFilled(v)) out.push({ key: r[0], label: r[1], msg: "required" });
+      else if (r[0] === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v).trim())) out.push({ key: "email", label: "Email", msg: "not a valid email" });
+      else if (["selling", "reg_fee", "road_tax", "ins_amt"].indexOf(r[0]) >= 0 && !isNumText(v)) out.push({ key: r[0], label: r[1], msg: "must be a number" });
+      else if (r[0] === "selling" && num(v) <= 0) out.push({ key: "selling", label: r[1], msg: "must be more than RM 0" });
+    });
+    var c = compute(d);
+    if (c.totSales <= 0) {
+      out.push({ key: "selling", label: "Total Sales Price", msg: "must be more than RM 0" });
+      out.push({ key: "selling", label: "Amount Due From / (To) Customer", msg: "needs the Selling Price" });
+    }
+    return out;
+  }
+
   /* Fields typed as capital letters. Not capitalised: email, dates and signature images. */
   var NO_CAPS = { email: 1, date: 1, delivery: 1, sig_customer: 1, sig_exec: 1 };
   function isCapsKey(k) { return !NO_CAPS[k]; }
@@ -345,7 +373,7 @@
 
   return {
     ACC: ACC, accKey: accKey, NOTES: NOTES, COMPANY: COMPANY, num: num, compute: compute, fmtAmt: fmtAmt,
-    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy,
+    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, REQUIRED: REQUIRED, validate: validate,
     fmtDate: fmtDate, today: today, emptyOrder: emptyOrder, fileName: fileName, buildPdf: buildPdf, money: money
   };
 });

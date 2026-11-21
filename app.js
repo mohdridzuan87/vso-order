@@ -71,20 +71,29 @@
       if (f.mode) input.setAttribute("inputmode", f.mode);
     }
     if (f.type !== "select" && V.isCapsKey(f.key)) input.setAttribute("autocapitalize", "characters");
-    return el("label", { class: "f" }, [el("span", { text: f.label }), input]);
+    return el("label", { class: "f" }, [el("span", { html: "" }, [document.createTextNode(f.label), star(f.key)]), input]);
+  }
+  /* red * after the label of a required field */
+  var REQ = {};
+  V.REQUIRED.forEach(function (r) { REQ[r[0]] = 1; });
+  function star(key) {
+    if (!REQ[key]) return null;
+    return el("b", { class: "req", text: " *", title: "Required" });
   }
   function moneyRow(key, label, code, o) {
     o = o || {};
     var left = o.freeLabel
       ? el("input", { class: "lblin", "data-k": key + "_label", autocapitalize: "characters", placeholder: o.placeholder || "Other item (type name)" })
-      : el("div", { class: "lbl" }, [code ? el("span", { class: "code", text: code }) : null, document.createTextNode(label)]);
-    var inp = el("input", { "data-k": key, type: "text", inputmode: o.text ? "text" : "decimal", placeholder: "0.00" });
+      : el("div", { class: "lbl" }, [code ? el("span", { class: "code", text: code }) : null, document.createTextNode(label), star(key)]);
+    var inp = el("input", { "data-k": key, type: "text", inputmode: o.text ? "text" : "decimal", placeholder: o.ph || "0.00" });
     if (o.pct) inp.setAttribute("placeholder", "%");
     if (o.text) { inp.setAttribute("placeholder", "Amount or text"); inp.setAttribute("autocapitalize", "characters"); inp.style.textAlign = "left"; }
     return el("div", { class: "money" }, [left, inp]);
   }
   function calcLine(id, label, big) {
-    return el("div", { class: "calc" + (big ? " big" : "") }, [el("span", { text: label }), el("span", { id: id, text: "-" })]);
+    var lab = el("span", { text: label });
+    if (id === "c_totSales" || id === "c_dueCust") lab.appendChild(el("b", { class: "req", text: " *", title: "Required" }));
+    return el("div", { class: "calc" + (big ? " big" : "") }, [lab, el("span", { id: id, text: "-" })]);
   }
   function sub(text) { return el("div", { class: "sub", text: text }); }
   function hint(text) { return el("div", { class: "hint", text: text }); }
@@ -92,7 +101,7 @@
   function customBody(kind) {
     var b = [];
     if (kind === "pricing") {
-      b.push(moneyRow("selling", "SELLING PRICE"), moneyRow("pearl", "Pearl White", "", { text: true }), moneyRow("metallic", "Metallic Paint", "", { text: true }));
+      b.push(moneyRow("selling", "SELLING PRICE", "", { ph: "CAR ORIGINAL PRICE" }), moneyRow("pearl", "Pearl White", "", { text: true }), moneyRow("metallic", "Metallic Paint", "", { text: true }));
       b.push(hint("Pearl White / Metallic Paint: type an amount (added to the total) or words, e.g. \"Yes\" or \"Included\" (printed as typed, not added)."));
       b.push(sub("Accessories"));
       V.ACC.forEach(function (a) { b.push(moneyRow(V.accKey(a[0]), a[1], a[0])); });
@@ -105,7 +114,7 @@
     } else if (kind === "fees") {
       b.push(moneyRow("reg_fee", "Registration / Ownership Endorsement Fee"), moneyRow("road_tax", "Road Tax / Haulage Permit Fee"),
         moneyRow("puspakom", "Puspakom Inspection Fee"), moneyRow("freight", "Freight / Marine / Insurance / Handling"),
-        moneyRow("ins_amt", "Insurance - Amount Insured"), moneyRow("ins_prem", "Insurance Premium"),
+        moneyRow("ins_amt", "Insurance - Amount Insured", "", { ph: "Amount yg Di Insurans Kan" }), moneyRow("ins_prem", "Insurance Premium"),
         moneyRow("ncd", "Less NCD (%)", "", { pct: true }));
       b.push(calcLine("c_netIns", "Net Insurance Premium"));
       b.push(hint("Net Insurance Premium = Insurance Premium x (1 - NCD%)."));
@@ -224,6 +233,7 @@
       }
     }
     current.data[k] = t.value;
+    if (t.classList.contains("invalid") && String(t.value).trim() !== "") t.classList.remove("invalid");
     refreshCalc();
     scheduleSave();
   }
@@ -309,8 +319,38 @@
     var blob = doc.output("blob");
     return { blob: blob, name: name };
   }
+  /* ---------- required fields ---------- */
+  function fieldEl(key) { return document.querySelector('#form [data-k="' + key + '"]'); }
+  function markInvalid(missing) {
+    document.querySelectorAll("#form .invalid").forEach(function (n) { n.classList.remove("invalid"); });
+    missing.forEach(function (m) { var n = fieldEl(m.key); if (n) n.classList.add("invalid"); });
+  }
+  function jumpTo(key) {
+    var n = fieldEl(key); if (!n) return;
+    var sec = n.closest("details"); if (sec) sec.open = true;
+    closeSheet();
+    setTimeout(function () { n.scrollIntoView({ block: "center", behavior: "smooth" }); n.focus({ preventScroll: true }); }, 80);
+  }
+  function showMissing(missing) {
+    $("sheetTitle").textContent = "Please fill in (" + missing.length + ")";
+    var body = $("sheetBody"); body.innerHTML = "";
+    body.appendChild(el("div", { class: "fname", text: "These required fields are marked * in red. Tap one to go to it." }));
+    var list = el("div", { class: "missing" });
+    missing.forEach(function (m) {
+      var b = el("button", { type: "button", class: "miss", text: m.label + " - " + m.msg });
+      b.addEventListener("click", function () { jumpTo(m.key); });
+      list.appendChild(b);
+    });
+    body.appendChild(list);
+    $("sheet").hidden = false;
+    var first = fieldEl(missing[0].key);
+    if (first) { var sec = first.closest("details"); if (sec) sec.open = true; }
+  }
   function openSheet() {
     saveCurrent();
+    var missing = V.validate(current.data);
+    markInvalid(missing);
+    if (missing.length) { showMissing(missing); return; }
     var p;
     try { p = makePdf(); } catch (e) { toast("Could not create PDF: " + e.message); return; }
     var url = URL.createObjectURL(p.blob);
