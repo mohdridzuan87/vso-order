@@ -28,8 +28,8 @@
     { title: "2. Customer", open: true, fields: [
       T("name", "Name", { ph: "Wan Jasni" }), T("cust_id", "Customer's ID"), T("ic", "IC / Biz Reg / Passport No"),
       T("address", "Address", { type: "textarea" }), T("postcode", "Post Code", { mode: "numeric" }),
-      T("email", "Email", { type: "email" }), T("tel_mobile", "Tel (Mobile)", { type: "tel" }),
-      T("tel_home", "Tel (Home)", { type: "tel" }), T("tel_office", "Tel (Office)", { type: "tel" })] },
+      T("email", "Email", { type: "email" }), T("tel_mobile", "Tel (Mobile)", { type: "tel", ph: "012-345 6789" }),
+      T("tel_home", "Tel (Home)", { type: "tel", ph: "03-1234 5678" }), T("tel_office", "Tel (Office)", { type: "tel", ph: "03-8765 4321" })] },
     { title: "3. Vehicle", fields: [
       T("model_code", "Model Code"), T("model_desc", "Model Description"),
       T("colour_code", "Colour Code"), T("colour_desc", "Colour Description"),
@@ -163,6 +163,16 @@
       var t = e.target;
       if (t.getAttribute && t.getAttribute("data-amt") && V.isNumText(t.value)) t.value = t.value.replace(/,/g, "");
     });
+    /* phone numbers: tidy into Malaysian format when you leave the field (012-345 6789, 03-1234 5678) */
+    form.addEventListener("focusout", function (e) {
+      var t = e.target, k = t.getAttribute && t.getAttribute("data-k");
+      if ((k !== "tel_home" && k !== "tel_mobile" && k !== "tel_office") || !current) return;
+      var f = V.formatTel(t.value);
+      if (f === t.value) return;
+      t.value = f;
+      current.data[k] = f;
+      scheduleSave();
+    });
     form.addEventListener("focusout", function (e) {
       var t = e.target;
       if (!t.getAttribute || !t.getAttribute("data-amt") || !current) return;
@@ -231,6 +241,7 @@
       var v = data[inp.getAttribute("data-k")];
       inp.value = v === undefined || v === null ? "" : v;
       if (inp.getAttribute("data-amt")) { var f = fmtPrice(inp.value); if (f !== null) inp.value = f; }
+      if (/^tel_(home|mobile|office)$/.test(inp.getAttribute("data-k"))) inp.value = V.formatTel(inp.value);
     });
     Object.keys(pads).forEach(function (k) { pads[k].reset(); });
     setTimeout(function () {

@@ -322,6 +322,26 @@
     if (!m) return "";
     return m[m.length - 1].replace(/[^0-9]/g, "");
   }
+  /* Malaysian phone numbers: digits typed any way ("0123456789", "+60 12-345 6789") become
+       mobile   012-345 6789  (10 digits)  or  011-1234 5678  (11 digits)
+       landline 03-1234 5678  (10 digits)  or  04-261 1234  (9 digits)  or  082-123 456  (Sabah/Sarawak, 9 digits)
+     Anything else (extension, letters, unusual length) is left exactly as typed. */
+  function formatTel(v) {
+    var s = String(v === undefined || v === null ? "" : v).trim();
+    if (!s || !/^[0-9\s\-+().]+$/.test(s)) return s;
+    var d = s.replace(/\D/g, "");
+    if (/^\+?\s*\(?60/.test(s) && d.indexOf("60") === 0) d = "0" + d.slice(2);
+    if (d.charAt(0) !== "0") return s;
+    if (/^01/.test(d)) {
+      if (d.length === 10) return d.slice(0, 3) + "-" + d.slice(3, 6) + " " + d.slice(6);
+      if (d.length === 11) return d.slice(0, 3) + "-" + d.slice(3, 7) + " " + d.slice(7);
+      return s;
+    }
+    if (/^08[2-9]/.test(d) && d.length === 9) return d.slice(0, 3) + "-" + d.slice(3, 6) + " " + d.slice(6);
+    if (d.length === 10) return d.slice(0, 2) + "-" + d.slice(2, 6) + " " + d.slice(6);
+    if (d.length === 9) return d.slice(0, 2) + "-" + d.slice(2, 5) + " " + d.slice(5);
+    return s;
+  }
   function isFilled(v) { return v !== undefined && v !== null && String(v).trim() !== ""; }
   /* returns [{key, label, msg}] for everything still missing; empty list = ready for PDF.
      "0" counts as filled (e.g. road tax 0), a blank does not. */
@@ -357,6 +377,7 @@
   /* Fit everything on one A4 page: end-y is linear in row height, so solve for it. */
   function buildPdf(jsPDF, d0) {
     var d = capsCopy(d0); /* PDF text is always CAPITALS (except email), even for older saved orders */
+    ["tel_home", "tel_mobile", "tel_office"].forEach(function (k) { d[k] = formatTel(d[k]); });
     var limit = PH - M;
     function endAt(rh) { return draw(new jsPDF({ unit: "pt", format: "a4" }), d, rh); }
     /* secant iterations, then step down until it fits */
@@ -382,7 +403,7 @@
 
   return {
     ACC: ACC, accKey: accKey, NOTES: NOTES, COMPANY: COMPANY, num: num, compute: compute, fmtAmt: fmtAmt,
-    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress,
+    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress, formatTel: formatTel,
     fmtDate: fmtDate, today: today, emptyOrder: emptyOrder, fileName: fileName, buildPdf: buildPdf, money: money
   };
 });
