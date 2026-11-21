@@ -26,7 +26,7 @@
       T("outlet_code", "Outlet Code"), T("outlet_address", "Outlet Address", { type: "textarea" }),
       T("sa_name", "SA's Name"), T("sa_staff", "SA's Staff No.")] },
     { title: "2. Customer", open: true, fields: [
-      T("name", "Name"), T("cust_id", "Customer's ID"), T("ic", "IC / Biz Reg / Passport No"),
+      T("name", "Name", { ph: "Wan Jasni" }), T("cust_id", "Customer's ID"), T("ic", "IC / Biz Reg / Passport No"),
       T("address", "Address", { type: "textarea" }), T("postcode", "Post Code", { mode: "numeric" }),
       T("email", "Email", { type: "email" }), T("tel_mobile", "Tel (Mobile)", { type: "tel" }),
       T("tel_home", "Tel (Home)", { type: "tel" }), T("tel_office", "Tel (Office)", { type: "tel" })] },
@@ -68,6 +68,7 @@
       input = el("textarea", { "data-k": f.key, rows: "3" });
     } else {
       input = el("input", { "data-k": f.key, type: f.type });
+      if (f.ph) input.setAttribute("placeholder", f.ph);
       if (f.mode) input.setAttribute("inputmode", f.mode);
     }
     if (f.type !== "select" && V.isCapsKey(f.key)) input.setAttribute("autocapitalize", "characters");
