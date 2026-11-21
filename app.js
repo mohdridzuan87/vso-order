@@ -89,6 +89,7 @@
       : el("div", { class: "lbl" }, [code ? el("span", { class: "code", text: code }) : null, document.createTextNode(label), star(key)]);
     var inp = el("input", { "data-k": key, type: "text", inputmode: o.text ? "text" : "decimal", placeholder: o.ph || "0.00" });
     if (o.pct) inp.setAttribute("placeholder", "%");
+    else inp.setAttribute("data-amt", "1"); /* price field: shown as 89,000.00 */
     if (o.text) { inp.setAttribute("placeholder", "Amount or text"); inp.setAttribute("autocapitalize", "characters"); inp.style.textAlign = "left"; }
     return el("div", { class: "money" }, [left, inp]);
   }
@@ -157,6 +158,27 @@
     });
     form.addEventListener("input", onInput);
     form.addEventListener("change", onInput);
+    /* price fields: plain number while typing, 89,000.00 once you leave the field (words are left alone) */
+    form.addEventListener("focusin", function (e) {
+      var t = e.target;
+      if (t.getAttribute && t.getAttribute("data-amt") && V.isNumText(t.value)) t.value = t.value.replace(/,/g, "");
+    });
+    form.addEventListener("focusout", function (e) {
+      var t = e.target;
+      if (!t.getAttribute || !t.getAttribute("data-amt") || !current) return;
+      var f = fmtPrice(t.value);
+      if (f === null || f === t.value) return;
+      t.value = f;
+      current.data[t.getAttribute("data-k")] = f;
+      refreshCalc();
+      scheduleSave();
+    });
+  }
+  /* "89000" -> "89,000.00", "1234.5" -> "1,234.50"; null when blank or not a number */
+  function fmtPrice(v) {
+    if (!V.isNumText(v)) return null;
+    var n = V.num(v);
+    return (n < 0 ? "-" : "") + V.money(n);
   }
 
   /* ---------- signature pads ---------- */
@@ -208,6 +230,7 @@
     document.querySelectorAll("#form [data-k]").forEach(function (inp) {
       var v = data[inp.getAttribute("data-k")];
       inp.value = v === undefined || v === null ? "" : v;
+      if (inp.getAttribute("data-amt")) { var f = fmtPrice(inp.value); if (f !== null) inp.value = f; }
     });
     Object.keys(pads).forEach(function (k) { pads[k].reset(); });
     setTimeout(function () {
