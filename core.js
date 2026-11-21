@@ -315,6 +315,13 @@
     ["ins_amt", "Insurance - Amount Insured"], ["model_code", "Model Code"], ["model_desc", "Model Description"],
     ["colour_code", "Colour Code"], ["colour_desc", "Colour Description"], ["remarks", "Remarks"]
   ];
+  /* Post code found in a typed address: a number of exactly 5 digits (not part of a longer number).
+     If there are several, the last one wins (the post code normally comes near the end). "" if none. */
+  function postcodeFromAddress(addr) {
+    var m = String(addr || "").match(/(^|[^0-9])([0-9]{5})(?![0-9])/g);
+    if (!m) return "";
+    return m[m.length - 1].replace(/[^0-9]/g, "");
+  }
   function isFilled(v) { return v !== undefined && v !== null && String(v).trim() !== ""; }
   /* returns [{key, label, msg}] for everything still missing; empty list = ready for PDF.
      "0" counts as filled (e.g. road tax 0), a blank does not. */
@@ -375,7 +382,7 @@
 
   return {
     ACC: ACC, accKey: accKey, NOTES: NOTES, COMPANY: COMPANY, num: num, compute: compute, fmtAmt: fmtAmt,
-    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS, REQUIRED: REQUIRED, validate: validate,
+    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress,
     fmtDate: fmtDate, today: today, emptyOrder: emptyOrder, fileName: fileName, buildPdf: buildPdf, money: money
   };
 });

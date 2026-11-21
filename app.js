@@ -235,9 +235,26 @@
       }
     }
     current.data[k] = t.value;
+    if (k === "address") autoPostcode();
     if (t.classList.contains("invalid") && String(t.value).trim() !== "") t.classList.remove("invalid");
     refreshCalc();
     scheduleSave();
+  }
+  /* A 5-digit number typed in the customer address fills Post Code. Only the value the app filled itself
+     is replaced or cleared, so a post code the user typed by hand is never overwritten. */
+  function setValue(key, val) {
+    current.data[key] = val;
+    var n = fieldEl(key);
+    if (n) { n.value = val; if (val) n.classList.remove("invalid"); }
+  }
+  function autoPostcode() {
+    var d = current.data, pc = V.postcodeFromAddress(d.address);
+    var cur = d.postcode || "", auto = d.pc_auto || "";
+    if (pc) {
+      if (cur === "" || cur === auto) { setValue("postcode", pc); d.pc_auto = pc; }
+    } else if (auto && cur === auto) {
+      setValue("postcode", ""); d.pc_auto = "";
+    }
   }
   function rm(n) { return (n < 0 ? "(RM " + V.money(n) + ")" : "RM " + V.money(n)); }
   function refreshCalc() {
