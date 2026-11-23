@@ -363,6 +363,13 @@
         try { t.setSelectionRange(s, en); } catch (err) { /* not selectable */ }
       }
     }
+    if (k === "remarks" && t.tagName === "TEXTAREA") { /* loan amount over 4 digits shows as 70,000.00 while you type */
+      var live = V.formatLoanLive(t.value, t.selectionStart);
+      if (live.text !== t.value) {
+        t.value = live.text;
+        try { t.setSelectionRange(live.caret, live.caret); } catch (err) { /* not selectable */ }
+      }
+    }
     current.data[k] = t.value;
     if (k === "address") autoPostcode();
     else if (k === "model_desc") autoModel();

@@ -103,6 +103,41 @@
         return label + " " + money(n);
       });
   }
+  /* Same rule, applied while typing: as soon as the loan amount has more than 4 digits it shows as 70,000.00 and the
+     cursor stays with the digits being typed (it sits just before ".00"). Decimals you type yourself are kept
+     (up to 2). Returns {text, caret}. */
+  function formatLoanLive(text, caret) {
+    text = String(text === undefined || text === null ? "" : text);
+    var m = /(LOAN AMOUNT\s*RM)([ \t]*)([0-9][0-9,]*)((?:\.[0-9]*)*)/i.exec(text);
+    if (!m) return { text: text, caret: caret };
+    var amtStart = m.index + m[1].length + m[2].length;
+    var amtEnd = amtStart + m[3].length + m[4].length;
+    var intDigits = m[3].replace(/,/g, "").replace(/^0+(?=[0-9])/, "");
+    var hadDot = m[4].length > 0;
+    var decDigits = m[4].replace(/\./g, "").slice(0, 2);
+    var intText = intDigits.length > 4 ? intDigits.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : intDigits;
+    var decText = hadDot ? "." + decDigits : (intDigits.length > 4 ? ".00" : "");
+    if (intDigits.length <= 4 && decDigits === "00") decText = ""; /* deleting digits down to 4: drop the automatic .00 */
+    var amt = intText + decText;
+    var head = text.slice(0, m.index) + m[1] + " ";
+    var out = head + amt + text.slice(amtEnd);
+    var c = typeof caret === "number" ? caret : out.length;
+    var nc;
+    if (c <= m.index + m[1].length) nc = c;
+    else if (c < amtStart) nc = head.length;
+    else if (c > amtEnd) nc = c + (out.length - text.length);
+    else {
+      var k = (text.slice(amtStart, c).match(/[0-9]/g) || []).length;
+      var pos = 0, seen = 0;
+      if (text.charAt(c - 1) === ".") pos = Math.max(0, amt.indexOf(".")) + 1; /* just typed a point: ready for decimals */
+      else if (k > 0) {
+        for (var i = 0; i < amt.length; i++) { if (/[0-9]/.test(amt.charAt(i))) seen++; if (seen === k) { pos = i + 1; break; } }
+        if (seen < k) pos = amt.length;
+      }
+      nc = head.length + pos;
+    }
+    return { text: out, caret: nc };
+  }
   function isUntouchedRemarks(v) { return String(v || "").replace(/\s+/g, "").toUpperCase() === REMARKS_TEMPLATE.replace(/\s+/g, ""); }
 
   function fileName(d) {
@@ -421,7 +456,7 @@
   return {
     ACC: ACC, accKey: accKey, NOTES: NOTES, COMPANY: COMPANY, num: num, compute: compute, fmtAmt: fmtAmt,
     isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS,
-    REMARKS_TEMPLATE: REMARKS_TEMPLATE, formatLoanRemarks: formatLoanRemarks, isUntouchedRemarks: isUntouchedRemarks, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress, formatTel: formatTel,
+    REMARKS_TEMPLATE: REMARKS_TEMPLATE, formatLoanRemarks: formatLoanRemarks, formatLoanLive: formatLoanLive, isUntouchedRemarks: isUntouchedRemarks, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress, formatTel: formatTel,
     fmtDate: fmtDate, today: today, emptyOrder: emptyOrder, fileName: fileName, buildPdf: buildPdf, money: money
   };
 });
