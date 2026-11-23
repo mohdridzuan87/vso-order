@@ -126,6 +126,14 @@ def parse_pdf(data):
         raise ValueError("cannot pair %d codes with %d headings / %d variants" % (n, len(heads), len(variants)))
     rows = [{"desc": norm_desc(d), "code": c} for d, c in zip(descs, codes)]
     try:
+        prices = price_table(doc, len(rows))
+    except Exception:
+        prices = None
+    if prices:
+        for r, pr in zip(rows, prices):
+            if pr:
+                r["price"] = pr
+    try:
         table = colour_table(doc, [r["desc"] for r in rows])
     except Exception:
         table = None
@@ -134,6 +142,70 @@ def parse_pdf(data):
             if cols:
                 r["pdf_colours"] = cols
     return rows
+
+
+# ------------------------------------------------- price table inside each price list
+NUM_RE = re.compile(r"^\d{1,3}(?:,\d{3})*\.\d{2}$")
+PRICE_LABELS = {
+    "selling": ("Selling", "Price"),
+    "puspakom": ("Puspakom", "Inspection", "Fee"),
+    "road_tax": ("1", "Year", "Road", "Tax"),
+    "reg": ("Registration", "Fee"),
+    "own": ("Ownership", "Endorsement", "Fee"),
+    "otr": ("On", "The", "Road", "Price"),
+    "ins": ("Recommended", "Sum", "Insured"),
+}
+
+
+def _price_row(words, key):
+    """-> (y, [numbers left to right]) of the first row carrying this label and numbers, else None."""
+    seq = PRICE_LABELS[key]
+    best = None
+    for w0 in words:
+        if w0[4].lower() != seq[0].lower():
+            continue
+        line = sorted((x for x in words if abs(x[1] - w0[1]) <= 2.5 and x[0] >= w0[0] - 1), key=lambda x: x[0])
+        texts = [x[4].lower() for x in line]
+        if texts[:len(seq)] != [t.lower() for t in seq] or (len(texts) > len(seq) and texts[len(seq)] == "(rm)"):
+            continue
+        nums = sorted((x for x in words if abs(x[1] - w0[1]) <= 4 and x[0] > w0[0] + 40 and NUM_RE.match(x[4])),
+                      key=lambda x: x[0])
+        if nums and (best is None or w0[1] < best[0]):
+            best = (w0[1], [float(x[4].replace(",", "")) for x in nums])
+    return best
+
+
+def price_table(doc, n):
+    """-> per variant {"selling", "road_tax", "reg", "own", "ins", ["puspakom"]} (Individual Private), or None."""
+    page = doc[0]
+    words = page.get_text("words")
+    rows = {k: _price_row(words, k) for k in PRICE_LABELS}
+    if not (rows["selling"] and rows["road_tax"] and rows["reg"] and rows["own"] and rows["ins"] and rows["otr"]):
+        return None
+    top = rows["selling"][0]
+    heads = [w[4] for w in words if top - 70 < w[1] < top and w[4] in ("Individual", "Company")]
+    pairs = "Individual" in heads and "Company" in heads  # columns come as Individual, Company, Individual, Company...
+    out = []
+    for i in range(n):
+        rec = {}
+        for k, row in rows.items():
+            if not row:
+                continue
+            vals = row[1]
+            if len(vals) == n:
+                v = vals[i]
+            elif pairs and len(vals) == 2 * n:
+                v = vals[2 * i]
+            else:
+                return None
+            rec[k] = v
+        total = rec["selling"] + rec.get("puspakom", 0) + rec["road_tax"] + rec["reg"] + rec["own"]
+        if abs(total - rec["otr"]) >= 1.0:  # the price list's own total must add up, otherwise do not trust it
+            out.append(None)
+            continue
+        rec.pop("otr")
+        out.append({k: round(v, 2) for k, v in rec.items()})
+    return out
 
 
 # ------------------------------------------------- colour tables inside each price list
@@ -470,7 +542,10 @@ def main():
                 cols.append(col)
                 total += 1
                 filled += 1 if code else 0
-            variants.append({"desc": r["desc"], "code": r["code"].upper(), "colours": cols})
+            v = {"desc": r["desc"], "code": r["code"].upper(), "colours": cols}
+            if r.get("price"):
+                v["price"] = r["price"]
+            variants.append(v)
         families.append({"id": fam, "model": LABELS.get(fam, fam.upper().replace("-", " ")), "variants": variants})
     for fam in problems:
         if fam in old:
@@ -480,7 +555,9 @@ def main():
         log("ERROR: too few models parsed. Nothing written.")
         return 1
     families.sort(key=lambda f: f["model"])
-    log("variants: %d   colours: %d (with a code: %d)" % (sum(len(f["variants"]) for f in families), total, filled))
+    log("variants: %d   colours: %d (with a code: %d)   with prices: %d" % (
+        sum(len(f["variants"]) for f in families), total, filled,
+        sum(1 for f in families for v in f["variants"] if v.get("price"))))
 
     prev_families = json.load(open(OUT, encoding="utf-8")).get("families") if os.path.exists(OUT) else None
     if prev_families == families:

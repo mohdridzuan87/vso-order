@@ -102,7 +102,7 @@
     MODELS = [];
     ((j && j.families) || []).forEach(function (f) {
       (f.variants || []).forEach(function (v) {
-        MODELS.push({ model: f.model, desc: v.desc, code: v.code, colours: v.colours || [] });
+        MODELS.push({ model: f.model, desc: v.desc, code: v.code, colours: v.colours || [], price: v.price || null });
       });
     });
   }
@@ -364,12 +364,39 @@
   /* Choosing a different listed model fills its Model Code (and offers its colours); choosing a different listed
      colour fills its Colour Code. After that the code box is yours: typing in it is never undone until you choose
      again. d.mc_desc / d.cc_name remember the last listed choice. */
+  /* Prices from the Toyota price list (Individual Private): choosing a different listed model fills Selling Price,
+     Registration + Ownership Endorsement Fee, Puspakom Inspection Fee (when the list has one), Insurance - Amount
+     Insured (Toyota's recommended sum insured) and 1 Year Road Tax. All stay editable. */
+  var PRICE_MAP = [
+    ["selling", function (p) { return p.selling; }],
+    ["reg_fee", function (p) { return Math.round(((p.reg || 0) + (p.own || 0)) * 100) / 100; }],
+    ["puspakom", function (p) { return p.puspakom; }],
+    ["ins_amt", function (p) { return p.ins; }],
+    ["road_tax", function (p) { return p.road_tax; }]
+  ];
+  function applyPrices(v) {
+    var d = current.data, auto = {};
+    PRICE_MAP.forEach(function (m) {
+      var val = m[1](v.price);
+      var text = (val === undefined || val === null) ? "" : (fmtPrice(String(val)) || "");
+      setValue(m[0], text);
+      auto[m[0]] = text;
+    });
+    d.pr_auto = auto; d.pr_desc = v.desc;
+  }
+  function clearAutoPrices() { /* only values the app filled itself, and only if you have not changed them */
+    var d = current.data, auto = d.pr_auto;
+    if (!auto) return;
+    PRICE_MAP.forEach(function (m) { if ((d[m[0]] || "") === (auto[m[0]] || "")) setValue(m[0], ""); });
+    d.pr_auto = null; d.pr_desc = "";
+  }
   function autoModel() {
     var d = current.data, v = findVariant(d.model_desc);
     if (v) {
       if (d.mc_desc !== v.desc) { /* a different listed model was chosen */
         setValue("model_code", v.code);
         d.mc_desc = v.desc; d.mc_auto = v.code;
+        if (v.price) applyPrices(v); else clearAutoPrices();
         var cname = (d.colour_desc || "").trim().toUpperCase();
         var offered = v.colours.some(function (c) { return c.name === cname; });
         if (cname && !offered && d.cc_name) { /* the colour was picked from the old model's list: drop it */
@@ -381,6 +408,7 @@
     } else if (d.mc_desc) { /* text no longer matches a listed model */
       if ((d.model_code || "") === (d.mc_auto || "")) setValue("model_code", "");
       d.mc_desc = ""; d.mc_auto = "";
+      clearAutoPrices();
     }
   }
   function autoColour() {

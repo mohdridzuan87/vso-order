@@ -28,7 +28,15 @@
        "code": "229",
        "hex": "#020203"
       }
-     ]
+     ],
+     "price": {
+      "selling": 546845.6,
+      "puspakom": 50.0,
+      "road_tax": 754.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 547000.0
+     }
     }
    ]
   },
@@ -65,7 +73,15 @@
        "code": "218",
        "hex": "#030507"
       }
-     ]
+     ],
+     "price": {
+      "selling": 219400.0,
+      "puspakom": 50.0,
+      "road_tax": 200.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 219000.0
+     }
     }
    ]
   },
@@ -105,7 +121,15 @@
        "code": "8X8",
        "hex": "#202649"
       }
-     ]
+     ],
+     "price": {
+      "selling": 220533.0,
+      "puspakom": 50.0,
+      "road_tax": 867.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 220000.0
+     }
     },
     {
      "desc": "CAMRY 2.5 HEV",
@@ -139,7 +163,15 @@
        "code": "8X8",
        "hex": "#202649"
       }
-     ]
+     ],
+     "price": {
+      "selling": 247533.0,
+      "puspakom": 50.0,
+      "road_tax": 867.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 247000.0
+     }
     }
    ]
   },
@@ -170,7 +202,15 @@
        "code": "1K0",
        "hex": "#828084"
       }
-     ]
+     ],
+     "price": {
+      "selling": 144120.8,
+      "puspakom": 50.0,
+      "road_tax": 279.2,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 144000.0
+     }
     },
     {
      "desc": "COROLLA 1.8GR SPORT A/T",
@@ -189,7 +229,15 @@
        "code": "2QL",
        "hex": "#7b0010"
       }
-     ]
+     ],
+     "price": {
+      "selling": 149120.8,
+      "puspakom": 50.0,
+      "road_tax": 279.2,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 149000.0
+     }
     }
    ]
   },
@@ -221,7 +269,14 @@
        "code": "1D4",
        "hex": "#9da2a4"
       }
-     ]
+     ],
+     "price": {
+      "selling": 133090.6,
+      "road_tax": 359.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 133000.0
+     }
     },
     {
      "desc": "COROLLA CROSS 1.8 HEV A/T",
@@ -252,7 +307,14 @@
        "code": "1K3",
        "hex": "#4c5662"
       }
-     ]
+     ],
+     "price": {
+      "selling": 140090.6,
+      "road_tax": 359.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 140000.0
+     }
     },
     {
      "desc": "COROLLA CROSS 1.8 HEV GR-S A/T",
@@ -273,7 +335,14 @@
        "code": "XM2",
        "hex": "#171948"
       }
-     ]
+     ],
+     "price": {
+      "selling": 148090.6,
+      "road_tax": 359.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 148000.0
+     }
     }
    ]
   },
@@ -314,7 +383,14 @@
        "code": "4W9",
        "hex": "#4a302e"
       }
-     ]
+     ],
+     "price": {
+      "selling": 194775.6,
+      "road_tax": 754.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 194000.0
+     }
     },
     {
      "desc": "FORTUNER 2.8 VRZ A/T 4X4",
@@ -347,7 +423,14 @@
        "code": "4W9",
        "hex": "#4a302e"
       }
-     ]
+     ],
+     "price": {
+      "selling": 240282.0,
+      "road_tax": 1248.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 240000.0
+     }
     },
     {
      "desc": "FORTUNER 2.7 SRZ A/T 4X4",
@@ -382,7 +465,14 @@
        "code": "4W9",
        "hex": "#4a302e"
       }
-     ]
+     ],
+     "price": {
+      "selling": 201379.6,
+      "road_tax": 1150.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 201000.0
+     }
     }
    ]
   },
@@ -410,7 +500,15 @@
        "name": "BLACK",
        "code": "202"
       }
-     ]
+     ],
+     "price": {
+      "selling": 368342.8,
+      "puspakom": 50.0,
+      "road_tax": 207.2,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 368000.0
+     }
     },
     {
      "desc": "GR COROLLA 1.6T A/T",
@@ -432,7 +530,15 @@
        "name": "BLACK",
        "code": "202"
       }
-     ]
+     ],
+     "price": {
+      "selling": 378342.8,
+      "puspakom": 50.0,
+      "road_tax": 207.2,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 378000.0
+     }
     }
    ]
   },
@@ -460,7 +566,15 @@
        "name": "PRECIOUS METAL",
        "code": "1L5"
       }
-     ]
+     ],
+     "price": {
+      "selling": 314992.8,
+      "puspakom": 50.0,
+      "road_tax": 207.2,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 315000.0
+     }
     },
     {
      "desc": "GR YARIS 1.6L A/T",
@@ -482,7 +596,15 @@
        "name": "PRECIOUS METAL",
        "code": "1L5"
       }
-     ]
+     ],
+     "price": {
+      "selling": 324992.8,
+      "puspakom": 50.0,
+      "road_tax": 207.2,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 325000.0
+     }
     }
    ]
   },
@@ -514,7 +636,15 @@
        "code": "P8Y",
        "hex": "#5f5d50"
       }
-     ]
+     ],
+     "price": {
+      "selling": 294833.0,
+      "puspakom": 50.0,
+      "road_tax": 767.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 295000.0
+     }
     },
     {
      "desc": "GR86 2.4 A/T",
@@ -540,7 +670,15 @@
        "code": "P8Y",
        "hex": "#5f5d50"
       }
-     ]
+     ],
+     "price": {
+      "selling": 304833.0,
+      "puspakom": 50.0,
+      "road_tax": 767.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 305000.0
+     }
     }
    ]
   },
@@ -566,7 +704,15 @@
        "code": "1G3",
        "hex": "#333538"
       }
-     ]
+     ],
+     "price": {
+      "selling": 287770.4,
+      "puspakom": 50.0,
+      "road_tax": 829.6,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 287000.0
+     }
     }
    ]
   },
@@ -600,7 +746,15 @@
        "code": "058",
        "hex": "#d5d8cf"
       }
-     ]
+     ],
+     "price": {
+      "selling": 170352.0,
+      "puspakom": 50.0,
+      "road_tax": 1248.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 170000.0
+     }
     }
    ]
   },
@@ -617,7 +771,14 @@
        "code": "058",
        "hex": "#d5d8cf"
       }
-     ]
+     ],
+     "price": {
+      "selling": 103775.6,
+      "road_tax": 754.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 103000.0
+     }
     },
     {
      "desc": "HILUX D/CAB 2.4E MT 4X4",
@@ -657,7 +818,14 @@
        "code": "1D4",
        "hex": "#9da2a4"
       }
-     ]
+     ],
+     "price": {
+      "selling": 116775.6,
+      "road_tax": 754.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 116000.0
+     }
     },
     {
      "desc": "HILUX D/CAB 2.4E AT 4X4",
@@ -697,7 +865,14 @@
        "code": "1D4",
        "hex": "#9da2a4"
       }
-     ]
+     ],
+     "price": {
+      "selling": 118775.6,
+      "road_tax": 754.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 118000.0
+     }
     },
     {
      "desc": "HILUX D/CAB 2.4V AT 4X4",
@@ -737,7 +912,14 @@
        "code": "1D4",
        "hex": "#9da2a4"
       }
-     ]
+     ],
+     "price": {
+      "selling": 148475.6,
+      "road_tax": 754.4,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 148000.0
+     }
     },
     {
      "desc": "HILUX D/CAB 2.8 ROGUE AT 4X4",
@@ -777,7 +959,14 @@
        "code": "1D4",
        "hex": "#9da2a4"
       }
-     ]
+     ],
+     "price": {
+      "selling": 161482.0,
+      "road_tax": 1248.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 161000.0
+     }
     },
     {
      "desc": "HILUX D/CAB 2.8 GR-S AT 4X4",
@@ -797,7 +986,14 @@
        "code": "040",
        "hex": "#e3e4e0"
       }
-     ]
+     ],
+     "price": {
+      "selling": 171682.0,
+      "road_tax": 1248.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 171000.0
+     }
     }
    ]
   },
@@ -824,7 +1020,15 @@
        "code": "1M2",
        "hex": "#50505a"
       }
-     ]
+     ],
+     "price": {
+      "selling": 225740.0,
+      "puspakom": 50.0,
+      "road_tax": 160.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 225000.0
+     }
     }
    ]
   },
@@ -856,7 +1060,15 @@
        "code": "218",
        "hex": "#030507"
       }
-     ]
+     ],
+     "price": {
+      "selling": 164226.5,
+      "puspakom": 50.0,
+      "road_tax": 373.5,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 164000.0
+     }
     },
     {
      "desc": "INNOVA ZENIX 2.0 HEV",
@@ -882,7 +1094,15 @@
        "code": "218",
        "hex": "#030507"
       }
-     ]
+     ],
+     "price": {
+      "selling": 201226.5,
+      "puspakom": 50.0,
+      "road_tax": 373.5,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 201000.0
+     }
     }
    ]
   },
@@ -914,7 +1134,15 @@
        "code": "WB3",
        "hex": "#02252b"
       }
-     ]
+     ],
+     "price": {
+      "selling": 197480.0,
+      "puspakom": 50.0,
+      "road_tax": 120.0,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 197000.0
+     }
     }
    ]
   },
@@ -940,7 +1168,15 @@
        "code": "229",
        "hex": "#020203"
       }
-     ]
+     ],
+     "price": {
+      "selling": 446764.8,
+      "puspakom": 50.0,
+      "road_tax": 835.2,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 446000.0
+     }
     },
     {
      "desc": "VELLFIRE 2.5 HEV AT EXECUTIVE LOUNGE",
@@ -961,7 +1197,15 @@
        "code": "229",
        "hex": "#020203"
       }
-     ]
+     ],
+     "price": {
+      "selling": 548670.4,
+      "puspakom": 50.0,
+      "road_tax": 829.6,
+      "reg": 300.0,
+      "own": 50.0,
+      "ins": 548000.0
+     }
     }
    ]
   },
@@ -996,7 +1240,14 @@
        "code": "X16",
        "hex": "#000000"
       }
-     ]
+     ],
+     "price": {
+      "selling": 94710.0,
+      "road_tax": 90.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 94000.0
+     }
     }
    ]
   },
@@ -1032,7 +1283,14 @@
        "code": "8X2",
        "hex": "#203079"
       }
-     ]
+     ],
+     "price": {
+      "selling": 90310.0,
+      "road_tax": 90.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 90000.0
+     }
     },
     {
      "desc": "VIOS 1.5G AT",
@@ -1062,7 +1320,14 @@
        "code": "8X2",
        "hex": "#203079"
       }
-     ]
+     ],
+     "price": {
+      "selling": 96310.0,
+      "road_tax": 90.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 96000.0
+     }
     },
     {
      "desc": "VIOS 1.5 HEV AT",
@@ -1093,7 +1358,14 @@
        "code": "1K3",
        "hex": "#4c5662"
       }
-     ]
+     ],
+     "price": {
+      "selling": 103610.0,
+      "road_tax": 90.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 103000.0
+     }
     },
     {
      "desc": "VIOS 1.5 HEV GR-S AT",
@@ -1122,7 +1394,14 @@
        "name": "2-TONE PLATINUM WHITE PEARL",
        "code": "2PS"
       }
-     ]
+     ],
+     "price": {
+      "selling": 109610.0,
+      "road_tax": 90.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 109000.0
+     }
     }
    ]
   },
@@ -1159,7 +1438,14 @@
        "code": "2PS",
        "hex": "#fcfcfc"
       }
-     ]
+     ],
+     "price": {
+      "selling": 90110.0,
+      "road_tax": 90.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 90000.0
+     }
     },
     {
      "desc": "YARIS 1.5G AT",
@@ -1190,7 +1476,14 @@
        "code": "2PS",
        "hex": "#fcfcfc"
       }
-     ]
+     ],
+     "price": {
+      "selling": 96110.0,
+      "road_tax": 90.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 96000.0
+     }
     }
    ]
   },
@@ -1227,7 +1520,14 @@
        "code": "B88",
        "hex": "#091449"
       }
-     ]
+     ],
+     "price": {
+      "selling": 99580.0,
+      "road_tax": 120.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 99000.0
+     }
     },
     {
      "desc": "YARIS CROSS 1.5S HEV",
@@ -1258,7 +1558,14 @@
        "code": "B88",
        "hex": "#091449"
       }
-     ]
+     ],
+     "price": {
+      "selling": 109580.0,
+      "road_tax": 120.0,
+      "reg": 150.0,
+      "own": 50.0,
+      "ins": 109000.0
+     }
     }
    ]
   }
