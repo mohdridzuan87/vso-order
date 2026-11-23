@@ -124,7 +124,176 @@ def parse_pdf(data):
         descs = heads
     else:
         raise ValueError("cannot pair %d codes with %d headings / %d variants" % (n, len(heads), len(variants)))
-    return [{"desc": norm_desc(d), "code": c} for d, c in zip(descs, codes)]
+    rows = [{"desc": norm_desc(d), "code": c} for d, c in zip(descs, codes)]
+    try:
+        table = colour_table(doc, [r["desc"] for r in rows])
+    except Exception:
+        table = None
+    if table:
+        for r, cols in zip(rows, table):
+            if cols:
+                r["pdf_colours"] = cols
+    return rows
+
+
+# ------------------------------------------------- colour tables inside each price list
+# Layouts seen: "Colours Availability | Code | <variants>" (most models), "Description | Code | <variants>" (Yaris),
+# "No. | Description | Code | <variants>" under "Exterior Colours" (Alphard, Vellfire). A header can cover several
+# variants (e.g. "HILUX D/CAB"), and a cell saying "Available" can span several columns.
+PUA_RE = re.compile(r"[-]")
+
+
+def _vertical_lines(page):
+    out = []
+    for d in page.get_drawings():
+        for it in d["items"]:
+            if it[0] == "l":
+                a, b = it[1], it[2]
+                if abs(a.x - b.x) < 0.8:
+                    out.append((a.x, min(a.y, b.y), max(a.y, b.y)))
+            elif it[0] == "re":
+                r = it[1]
+                if r.width < 1.5 and r.height > 1:
+                    out.append(((r.x0 + r.x1) / 2, r.y0, r.y1))
+    return out
+
+
+def _tokens(s):
+    s = s.upper().replace("A/T", "AT").replace("M/T", "MT").replace("4WD", "4X4").replace("ROUGE", "ROGUE")
+    s = re.sub(r"^TOYOTA ", "", clean(s))
+    return set(t for t in re.split(r"[\s,]+", s) if t)
+
+
+def _best_partition(centres, spans, k):
+    """Split n contiguous columns into k groups so each group's middle best matches the text centres."""
+    n = len(spans)
+    best = (None, 1e18)
+
+    def rec(start, g, cuts, err):
+        nonlocal best
+        if g == k:
+            if start == n and err < best[1]:
+                best = (list(cuts), err)
+            return
+        for end in range(start + 1, n - (k - g - 1) + 1):
+            mid = (spans[start][0] + spans[end - 1][1]) / 2
+            rec(end, g + 1, cuts + [(start, end)], err + (mid - centres[g]) ** 2)
+
+    rec(0, 0, [], 0.0)
+    return best[0]
+
+
+def _table_at(page, words, cw, descs):
+    """Read the colour table whose header row contains the word 'Code' (cw). -> {column index: [colours]}, columns"""
+    hy0, hy1 = cw[1], cw[3]
+    band = sorted((w for w in words if abs(w[1] - hy0) < 4), key=lambda w: w[0])
+
+    # 1) columns from the drawn borders crossing the header row (exact, works for most models)
+    xs = sorted(x for x, y0, y1 in _vertical_lines(page) if y0 <= hy0 + 2 and y1 >= hy1 - 2)
+    edges = []
+    for x in xs:
+        if not edges or x - edges[-1] > 1.5:
+            edges.append(x)
+    clusters = []
+    cw_mid = (cw[0] + cw[2]) / 2
+    seen_code = False
+    for a_, b_ in zip(edges, edges[1:]):
+        text = clean(" ".join(w[4] for w in band if a_ <= (w[0] + w[2]) / 2 < b_))
+        if a_ <= cw_mid < b_:
+            seen_code = True
+            continue
+        if not seen_code:
+            continue
+        if not text or re.search(r"price|^no\.?$|description", text, re.I):
+            break
+        clusters.append({"text": text, "lo": a_, "hi": b_, "x0": a_, "x1": b_})
+    right = clusters[-1]["hi"] if clusters else page.rect.width
+
+    # 2) no inner borders (Alphard, Vellfire): group the header words by spacing
+    if not clusters:
+        stops = [w[0] for w in band if w[0] > cw[2] + 5 and w[4] in ("No.", "Description", "Price")]
+        right = min(stops) if stops else page.rect.width
+        cols_words = [w for w in band if cw[2] + 3 < w[0] < right - 1 and w[4] not in ("Interior", "Exterior")]
+        for w in cols_words:
+            if clusters and w[0] - clusters[-1]["x1"] <= 12:
+                clusters[-1]["words"].append(w[4])
+                clusters[-1]["x1"] = w[2]
+            else:
+                clusters.append({"words": [w[4]], "x0": w[0], "x1": w[2]})
+        if not clusters:
+            return None
+        for i, c in enumerate(clusters):
+            c["text"] = clean(" ".join(c["words"]))
+            c["lo"] = cw[2] + 3 if i == 0 else (clusters[i - 1]["x1"] + c["x0"]) / 2
+        for i, c in enumerate(clusters):
+            c["hi"] = (c["x1"] + clusters[i + 1]["x0"]) / 2 if i + 1 < len(clusters) else right
+    spans = [(c["lo"], c["hi"]) for c in clusters]
+    # table's left edge and the next table below (vellfire stacks Exterior over Interior)
+    lefts = [w[0] for w in band if w[0] < cw[0]]
+    left = max(0.0, min(lefts) - 80) if lefts else 0  # row numbers can sit left of the header text (Yaris)
+    below = [w[1] for w in words if w[4] == "Code" and w[1] > hy1 + 20 and abs(w[0] - cw[0]) < 30]
+    y_limit = min(below) if below else page.rect.height
+    idx = sorted((w for w in words if re.match(r"^\d{1,2}\)?$", w[4]) and left <= w[0] < cw[0] - 8
+                  and hy1 < w[1] < y_limit), key=lambda w: w[1])
+    if idx:  # row numbers sit in the table's first column; a "2" inside a colour name (Super White 2) must not count
+        first_x = min(w[0] for w in idx)
+        idx = [w for w in idx if w[0] <= first_x + 8]
+    seq, want = [], 1
+    for w in idx:
+        if int(w[4].rstrip(")")) == want:
+            seq.append(w)
+            want += 1
+    idx = seq
+    if not idx:
+        return None
+    ys = [(w[1] + w[3]) / 2 for w in idx]
+    gap = min([b - a for a, b in zip(ys, ys[1:]) if b - a > 4] or [12])
+    per_col = [[] for _ in clusters]
+    for w, cy in zip(idx, ys):
+        row = [x for x in words if cy - gap / 2 <= (x[1] + x[3]) / 2 < cy + gap / 2 and x[1] >= hy1 - 0.5
+               and left <= x[0] < right]
+        name = clean(PUA_RE.sub("", " ".join(x[4] for x in sorted(row, key=lambda x: x[0])
+                                              if w[2] < x[0] < cw[0] - 3 and x is not w)))
+        name = re.sub(r"[.*]+$", "", name).strip()
+        name = re.sub(r"^\(2-tone\)\s*", "2-tone ", name, flags=re.I)
+        code = next((x[4].upper() for x in row if cw[0] - 8 <= x[0] < cw[2] + 12 and re.match(r"^[0-9A-Za-z]{3,4}$", x[4])), "")
+        cells = sorted((x for x in row if x[0] >= cw[2] + 3 and re.match(r"^(Available|N/A)$", x[4])), key=lambda x: x[0])
+        if not name or not cells or len(cells) > len(clusters):
+            continue
+        groups = _best_partition([(c[0] + c[2]) / 2 for c in cells], spans, len(cells))
+        if not groups:
+            continue
+        for cell, (g0, g1) in zip(cells, groups):
+            if cell[4] == "Available":
+                for ci in range(g0, g1):
+                    per_col[ci].append({"name": name, "code": code})
+    return clusters, per_col
+
+
+def colour_table(doc, descs):
+    """-> per variant: [{"name", "code"}] from the price list's colour table, or None where it could not be read."""
+    for page in doc:
+        words = page.get_text("words")
+        for cw in sorted((w for w in words if w[4] == "Code"), key=lambda w: (round(w[1]), w[0])):
+            got = _table_at(page, words, cw, descs)
+            if not got:
+                continue
+            clusters, per_col = got
+            toks = [_tokens(c["text"]) for c in clusters]
+            out = [None] * len(descs)
+            for vi, d in enumerate(descs):
+                dt = _tokens(d)
+                best, score = None, 0
+                for ci, ct in enumerate(toks):
+                    if ct and ct <= dt and len(ct) > score:
+                        best, score = ci, len(ct)
+                if best is None and len(clusters) == len(descs):
+                    best = vi
+                if best is not None and per_col[best]:
+                    out[vi] = per_col[best]
+            if any(o is not None for o in out):  # this is the colour table (the accessories table never matches)
+                return out
+    return None
 
 
 # -------------------------------------------------------------------- colours
@@ -262,7 +431,17 @@ def main():
         try:
             rows = parse_pdf(fetch(BASE + path, binary=True))
             for r in rows:
-                r["colours"] = colours_for(fam, r["desc"])
+                try:
+                    site = colours_for(fam, r["desc"])  # the model page: colour dots, and a fallback list
+                except Exception as e:
+                    site = []
+                    log("      (model page not readable for %s: %s)" % (fam, e))
+                if r.get("pdf_colours"):  # the price list is the authority for names, codes and availability
+                    hexes = {colour_key(nm): hx for nm, cd, hx in site if hx}
+                    r["colours"] = [(c["name"], c["code"], hexes.get(colour_key(c["name"]), "")) for c in r["pdf_colours"]]
+                    r["from_pdf"] = True
+                else:
+                    r["colours"] = site
             raw[fam] = rows
             log("  ok  %-28s %d variants" % (fam, len(rows)))
         except Exception as e:
