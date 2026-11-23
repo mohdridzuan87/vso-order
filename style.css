@@ -52,6 +52,18 @@ details.sec[open] > summary { border-bottom: 1px solid var(--line); }
 .f input.invalid, .f select.invalid, .f textarea.invalid, .money input.invalid { border: 2px solid var(--red); background: #ffecee; }
 .missing { display: flex; flex-direction: column; gap: 6px; max-height: 50vh; overflow: auto; margin-bottom: 8px; }
 .miss { text-align: left; border: 1px solid #f0c2ca; background: #fdecef; color: var(--red-dark); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+.combo { position: relative; }
+.combo input { padding-right: 46px; }
+.combo-btn { position: absolute; right: 1px; top: 1px; bottom: 1px; width: 44px; border: 0; background: transparent; color: var(--muted); font-size: 18px; border-radius: 8px; }
+.combo-panel { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 30; background: #fff; border: 1px solid var(--line);
+  border-radius: 10px; max-height: 46vh; overflow-y: auto; box-shadow: 0 6px 18px rgba(0,0,0,.18); -webkit-overflow-scrolling: touch; }
+.combo-group { position: sticky; top: 0; background: #f3f3f5; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .5px; padding: 5px 12px; }
+.combo-item { display: flex; align-items: center; gap: 8px; padding: 11px 12px; border-bottom: 1px solid #f0f0f2; font-size: 15px; }
+.combo-item:active { background: #fdecef; }
+.ci-main { flex: 1; }
+.ci-sub { color: var(--muted); font-size: 12px; }
+.dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #bbb; flex: none; }
+.combo-note { padding: 12px; color: var(--muted); font-size: 13px; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .money { display: grid; grid-template-columns: 1fr 130px; gap: 10px; align-items: center; padding: 6px 0; border-bottom: 1px solid #eee; }
 .money .lbl { font-size: 14px; }

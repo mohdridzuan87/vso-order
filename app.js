@@ -30,12 +30,7 @@
       T("address", "Address", { type: "textarea" }), T("postcode", "Post Code", { mode: "numeric" }),
       T("email", "Email", { type: "email" }), T("tel_mobile", "Tel (Mobile)", { type: "tel", ph: "012-345 6789" }),
       T("tel_home", "Tel (Home)", { type: "tel", ph: "03-1234 5678" }), T("tel_office", "Tel (Office)", { type: "tel", ph: "03-8765 4321" })] },
-    { title: "3. Vehicle", fields: [
-      T("model_code", "Model Code"), T("model_desc", "Model Description"),
-      T("colour_code", "Colour Code"), T("colour_desc", "Colour Description"),
-      T("reg_type", "Registration Type", { type: "select", options: ["", "PI", "PC", "CC"] }),
-      T("pay_type", "Payment Type", { type: "select", options: ["", "CASH", "HP"] }),
-      T("hp_company", "Hire Purchase / Leasing Company"), T("delivery", "Estimated Delivery Date", { type: "date" })] },
+    { title: "3. Vehicle", custom: "vehicle" },
     { title: "4. Price & accessories", custom: "pricing" },
     { title: "5. Fees & insurance", custom: "fees" },
     { title: "6. Trade-in vehicle", fields: [
@@ -101,9 +96,92 @@
   function sub(text) { return el("div", { class: "sub", text: text }); }
   function hint(text) { return el("div", { class: "hint", text: text }); }
 
+  /* ---------- model & colour pickers (list comes from Toyota Malaysia; everything stays editable) ---------- */
+  var MODELS = []; /* [{model, desc, code, colours:[{name, code, hex}]}] */
+  function setModels(j) {
+    MODELS = [];
+    ((j && j.families) || []).forEach(function (f) {
+      (f.variants || []).forEach(function (v) {
+        MODELS.push({ model: f.model, desc: v.desc, code: v.code, colours: v.colours || [] });
+      });
+    });
+  }
+  function loadModels() {
+    if (window.__VSO_MODELS) { setModels(window.__VSO_MODELS); return; }
+    fetch("data/models.json").then(function (r) { return r.ok ? r.json() : null; }).then(setModels).catch(function () { /* typing still works */ });
+  }
+  function findVariant(desc) {
+    var d = String(desc || "").trim().toUpperCase();
+    if (!d) return null;
+    for (var i = 0; i < MODELS.length; i++) if (MODELS[i].desc === d) return MODELS[i];
+    return null;
+  }
+  function currentVariant() { return current ? findVariant(current.data.model_desc) : null; }
+  function modelItems() {
+    if (!MODELS.length) return [{ note: "Model list not available - type the model yourself" }];
+    return MODELS.map(function (m) { return { text: m.desc, sub: m.code, group: m.model }; });
+  }
+  function colourItems() {
+    var v = currentVariant();
+    if (!v) return [{ note: "Select Model Description first (or type the colour yourself)" }];
+    if (!v.colours.length) return [{ note: "No colour list for this model - type the colour yourself" }];
+    return v.colours.map(function (c) { return { text: c.name, sub: c.code, hex: c.hex }; });
+  }
+  function comboField(key, label, itemsFn, ph) {
+    var input = el("input", { "data-k": key, type: "text", autocapitalize: "characters", autocomplete: "off", placeholder: ph || "" });
+    var btn = el("button", { type: "button", class: "combo-btn", "aria-label": "Show list", text: "▾" });
+    var panel = el("div", { class: "combo-panel" });
+    panel.hidden = true;
+    var wrap = el("div", { class: "combo" }, [input, btn, panel]);
+    var typed = false;
+    function render() {
+      panel.innerHTML = "";
+      var q = typed ? input.value.trim().toUpperCase().split(/\s+/).filter(Boolean) : [];
+      var items = itemsFn(), shown = 0, group = null;
+      items.forEach(function (it) {
+        if (it.note) { panel.appendChild(el("div", { class: "combo-note", text: it.note })); return; }
+        var hay = (it.text + " " + (it.sub || "")).toUpperCase();
+        if (!q.every(function (w) { return hay.indexOf(w) >= 0; })) return;
+        if (it.group && it.group !== group) { panel.appendChild(el("div", { class: "combo-group", text: it.group })); group = it.group; }
+        var dot = it.hex ? el("i", { class: "dot" }) : null;
+        if (dot) dot.style.background = it.hex;
+        var row = el("div", { class: "combo-item", role: "option" },
+          [dot, el("span", { class: "ci-main", text: it.text }), it.sub ? el("span", { class: "ci-sub", text: it.sub }) : null]);
+        row.addEventListener("mousedown", function (e) { e.preventDefault(); }); /* keep the keyboard focus */
+        row.addEventListener("click", function () {
+          input.value = it.text;
+          input.dispatchEvent(new Event("input", { bubbles: true })); /* saves + fills the code */
+          close(); /* after the event: typing normally re-opens the list */
+          input.blur();
+        });
+        panel.appendChild(row);
+        shown++;
+      });
+      if (!shown && !items.some(function (i) { return i.note; })) panel.appendChild(el("div", { class: "combo-note", text: "No match - keep typing, or type it yourself" }));
+    }
+    function open() { typed = false; render(); panel.hidden = false; setTimeout(function () { panel.scrollIntoView({ block: "nearest" }); }, 30); }
+    function close() { panel.hidden = true; }
+    input.addEventListener("focus", open);
+    input.addEventListener("input", function () { typed = true; render(); panel.hidden = false; });
+    input.addEventListener("keydown", function (e) { if (e.key === "Escape" || e.key === "Tab") close(); });
+    btn.addEventListener("mousedown", function (e) { e.preventDefault(); });
+    btn.addEventListener("click", function () { if (panel.hidden) { input.focus({ preventScroll: true }); open(); } else close(); });
+    document.addEventListener("pointerdown", function (e) { if (!panel.hidden && !wrap.contains(e.target)) close(); });
+    return el("div", { class: "f" }, [el("span", {}, [document.createTextNode(label), star(key)]), wrap]);
+  }
+
   function customBody(kind) {
     var b = [];
-    if (kind === "pricing") {
+    if (kind === "vehicle") {
+      b.push(comboField("model_desc", "Model Description", modelItems, "Select or type the model"));
+      b.push(field(T("model_code", "Model Code", { ph: "Select Model Description First" })));
+      b.push(comboField("colour_desc", "Colour Description", colourItems, "Select or type the colour"));
+      b.push(field(T("colour_code", "Colour Code", { ph: "Select Description 1st" })));
+      b.push(field(T("reg_type", "Registration Type", { type: "select", options: ["", "PI", "PC", "CC"] })));
+      b.push(field(T("pay_type", "Payment Type", { type: "select", options: ["", "CASH", "HP"] })));
+      b.push(field(T("hp_company", "Hire Purchase / Leasing Company")));
+      b.push(field(T("delivery", "Estimated Delivery Date", { type: "date" })));
+    } else if (kind === "pricing") {
       b.push(moneyRow("selling", "SELLING PRICE", "", { ph: "CAR ORIGINAL PRICE" }), moneyRow("pearl", "Pearl White", "", { text: true }), moneyRow("metallic", "Metallic Paint", "", { text: true }));
       b.push(hint("Pearl White / Metallic Paint: type an amount (added to the total) or words, e.g. \"Yes\" or \"Included\" (printed as typed, not added)."));
       b.push(sub("Accessories"));
@@ -270,6 +348,8 @@
     }
     current.data[k] = t.value;
     if (k === "address") autoPostcode();
+    else if (k === "model_desc") autoModel();
+    else if (k === "colour_desc") autoColour();
     if (t.classList.contains("invalid") && String(t.value).trim() !== "") t.classList.remove("invalid");
     refreshCalc();
     scheduleSave();
@@ -280,6 +360,42 @@
     current.data[key] = val;
     var n = fieldEl(key);
     if (n) { n.value = val; if (val) n.classList.remove("invalid"); }
+  }
+  /* Choosing a different listed model fills its Model Code (and offers its colours); choosing a different listed
+     colour fills its Colour Code. After that the code box is yours: typing in it is never undone until you choose
+     again. d.mc_desc / d.cc_name remember the last listed choice. */
+  function autoModel() {
+    var d = current.data, v = findVariant(d.model_desc);
+    if (v) {
+      if (d.mc_desc !== v.desc) { /* a different listed model was chosen */
+        setValue("model_code", v.code);
+        d.mc_desc = v.desc; d.mc_auto = v.code;
+        var cname = (d.colour_desc || "").trim().toUpperCase();
+        var offered = v.colours.some(function (c) { return c.name === cname; });
+        if (cname && !offered && d.cc_name) { /* the colour was picked from the old model's list: drop it */
+          setValue("colour_desc", "");
+          setValue("colour_code", "");
+          d.cc_name = ""; d.cc_auto = "";
+        } else if (cname && offered) { d.cc_name = ""; autoColour(); } /* same colour, this model's code */
+      }
+    } else if (d.mc_desc) { /* text no longer matches a listed model */
+      if ((d.model_code || "") === (d.mc_auto || "")) setValue("model_code", "");
+      d.mc_desc = ""; d.mc_auto = "";
+    }
+  }
+  function autoColour() {
+    var d = current.data, v = currentVariant(), name = (d.colour_desc || "").trim().toUpperCase();
+    var c = null;
+    if (v) for (var i = 0; i < v.colours.length; i++) if (v.colours[i].name === name) { c = v.colours[i]; break; }
+    if (c) {
+      if (d.cc_name !== c.name) { /* a different listed colour was chosen */
+        setValue("colour_code", c.code || "");
+        d.cc_name = c.name; d.cc_auto = c.code || "";
+      }
+    } else if (d.cc_name) { /* text no longer matches a listed colour */
+      if ((d.colour_code || "") === (d.cc_auto || "")) setValue("colour_code", "");
+      d.cc_name = ""; d.cc_auto = "";
+    }
   }
   function autoPostcode() {
     var d = current.data, pc = V.postcodeFromAddress(d.address);
@@ -439,6 +555,7 @@
   }
 
   /* ---------- wire up ---------- */
+  loadModels();
   buildForm();
   $("newBtn").addEventListener("click", newOrder);
   $("backBtn").addEventListener("click", function () { if (location.hash === "#edit") history.back(); else showList(); });

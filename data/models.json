@@ -1,0 +1,1282 @@
+{
+ "generated": "2026-11-23",
+ "families": [
+  {
+   "id": "alphard",
+   "model": "ALPHARD",
+   "variants": [
+    {
+     "desc": "ALPHARD 2.4T AT EXECUTIVE LOUNGE",
+     "code": "TAHA40R-PFZVTE AN",
+     "colours": [
+      {
+       "name": "PLATINUM WHITE PEARL MC",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "PRECIOUS METAL",
+       "code": "1L5",
+       "hex": "#545656"
+      },
+      {
+       "name": "NEUTRAL BLACK",
+       "code": "",
+       "hex": "#020203"
+      },
+      {
+       "name": "PRECIOUS LEO-BLOND",
+       "code": "",
+       "hex": "#c7b2a1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bz4x",
+   "model": "BZ4X",
+   "variants": [
+    {
+     "desc": "BZ4X",
+     "code": "XEAM11R-MWDHQW BX",
+     "colours": [
+      {
+       "name": "PRECIOUS METAL",
+       "code": "1L5",
+       "hex": "#545656"
+      },
+      {
+       "name": "ATTITUDE BLACK MC.",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL MC.",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "EMOTIONAL RED 2",
+       "code": "3U5",
+       "hex": "#740001"
+      },
+      {
+       "name": "DK. BLUE MC.",
+       "code": "8X8",
+       "hex": "#202649"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "camry-hev-and-ice",
+   "model": "CAMRY",
+   "variants": [
+    {
+     "desc": "CAMRY 2.5V A/T",
+     "code": "AXVA80R-JEZVBTHG",
+     "colours": [
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "EMOTIONAL RED II",
+       "code": "3U5",
+       "hex": "#740001"
+      },
+      {
+       "name": "CEMENT GRAY METALLIC",
+       "code": "",
+       "hex": "#808080"
+      },
+      {
+       "name": "PRECIOUS METAL",
+       "code": "1L5",
+       "hex": "#545656"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "DARK BLUE MICA",
+       "code": "8X8",
+       "hex": "#202649"
+      }
+     ]
+    },
+    {
+     "desc": "CAMRY 2.5 HEV",
+     "code": "AXVH80R-JEXVBTHH",
+     "colours": [
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "EMOTIONAL RED II",
+       "code": "3U5",
+       "hex": "#740001"
+      },
+      {
+       "name": "CEMENT GRAY METALLIC",
+       "code": "",
+       "hex": "#808080"
+      },
+      {
+       "name": "PRECIOUS METAL",
+       "code": "1L5",
+       "hex": "#545656"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "DARK BLUE MICA",
+       "code": "8X8",
+       "hex": "#202649"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "corolla",
+   "model": "COROLLA",
+   "variants": [
+    {
+     "desc": "COROLLA 1.8G A/T",
+     "code": "ZRE211R-GEXEKE CY",
+     "colours": [
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "METAL STREAM METALLIC",
+       "code": "",
+       "hex": "#828084"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "CEMENT GRAY METALLIC",
+       "code": "",
+       "hex": "#808080"
+      }
+     ]
+    },
+    {
+     "desc": "COROLLA 1.8GR SPORT A/T",
+     "code": "ZRE211R-GEXXKE CZ",
+     "colours": [
+      {
+       "name": "2-TONE PLATINUM WHITE PEARL",
+       "code": "2PS"
+      },
+      {
+       "name": "2-TONE RED MICA METALLIC",
+       "code": "2QL",
+       "hex": "#7b0010"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "corolla-cross",
+   "model": "COROLLA CROSS",
+   "variants": [
+    {
+     "desc": "COROLLA CROSS 1.8V A/T",
+     "code": "ZSG10R-JHXEKE 3A",
+     "colours": [
+      {
+       "name": "CELESTITE GREY METALLIC",
+       "code": "",
+       "hex": "#4c5662"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "RED MICA METALLIC",
+       "code": "3R3",
+       "hex": "#7b0010"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "DARK TURQUOISE",
+       "code": "",
+       "hex": "#091449"
+      }
+     ]
+    },
+    {
+     "desc": "COROLLA CROSS 1.8 HEV A/T",
+     "code": "ZVG10R-JHXEBE 3B",
+     "colours": [
+      {
+       "name": "CELESTITE GREY METALLIC",
+       "code": "",
+       "hex": "#4c5662"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "RED MICA METALLIC",
+       "code": "3R3",
+       "hex": "#7b0010"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "DARK TURQUOISE",
+       "code": "",
+       "hex": "#091449"
+      }
+     ]
+    },
+    {
+     "desc": "COROLLA CROSS 1.8 HEV GR-S A/T",
+     "code": "ZVG10R-JHXRBE 3D",
+     "colours": [
+      {
+       "name": "2-TONE PLATINUM WHITE PEARL",
+       "code": "2PS",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "2-TONE DARK TURQUOISE",
+       "code": "",
+       "hex": "#171948"
+      },
+      {
+       "name": "2-TONE RED MICA METALLIC",
+       "code": "2QL",
+       "hex": "#7b0010"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fortuner",
+   "model": "FORTUNER",
+   "variants": [
+    {
+     "desc": "FORTUNER 2.4 A/T 4X4",
+     "code": "GUN155R-SETLXE R1",
+     "colours": [
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "MEDIUM SILVER METALLIC",
+       "code": "",
+       "hex": "#6a7376"
+      },
+      {
+       "name": "PHANTOM BROWN METALLIC",
+       "code": "",
+       "hex": "#4a302e"
+      },
+      {
+       "name": "BRONZE MICA METALLIC",
+       "code": "",
+       "hex": "#4e4a43"
+      }
+     ]
+    },
+    {
+     "desc": "FORTUNER 2.8 VRZ A/T 4X4",
+     "code": "GUN156R-SETHXE R2",
+     "colours": [
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "MEDIUM SILVER METALLIC",
+       "code": "",
+       "hex": "#6a7376"
+      },
+      {
+       "name": "PHANTOM BROWN METALLIC",
+       "code": "",
+       "hex": "#4a302e"
+      },
+      {
+       "name": "SUPER WHITE II WITH BLACK ROOF",
+       "code": ""
+      },
+      {
+       "name": "BRONZE MICA METALLIC WITH BLACK ROOF",
+       "code": ""
+      }
+     ]
+    },
+    {
+     "desc": "FORTUNER 2.7 SRZ A/T 4X4",
+     "code": "TGN156R-SETHKE R3",
+     "colours": [
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "MEDIUM SILVER METALLIC",
+       "code": "",
+       "hex": "#6a7376"
+      },
+      {
+       "name": "PHANTOM BROWN METALLIC",
+       "code": "",
+       "hex": "#4a302e"
+      },
+      {
+       "name": "BRONZE MICA METALLIC",
+       "code": "",
+       "hex": "#4e4a43"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "gr-corolla",
+   "model": "GR COROLLA",
+   "variants": [
+    {
+     "desc": "GR COROLLA 1.6T M/T",
+     "code": "GZEA14R-BHFRZE HW",
+     "colours": []
+    },
+    {
+     "desc": "GR COROLLA 1.6T A/T",
+     "code": "GZEA14R-BHZRZT HX",
+     "colours": []
+    }
+   ]
+  },
+  {
+   "id": "gr-yaris",
+   "model": "GR YARIS",
+   "variants": [
+    {
+     "desc": "GR YARIS 1.6L M/T",
+     "code": "GXPA16R-AGFGZW VW",
+     "colours": []
+    },
+    {
+     "desc": "GR YARIS 1.6L A/T",
+     "code": "GXPA16R-AGZGZW VX",
+     "colours": []
+    }
+   ]
+  },
+  {
+   "id": "gr-86",
+   "model": "GR86",
+   "variants": [
+    {
+     "desc": "GR86 2.4 M/T",
+     "code": "ZN8-FKE8 UW",
+     "colours": [
+      {
+       "name": "IGNITION RED",
+       "code": "",
+       "hex": "#e11e26"
+      },
+      {
+       "name": "CRYSTAL WHITE PEARL",
+       "code": "",
+       "hex": "#f5f5f5"
+      },
+      {
+       "name": "CRYSTAL BLACK SILICA",
+       "code": "",
+       "hex": "#101010"
+      },
+      {
+       "name": "MAGNETITE GRAY METALLIC",
+       "code": "",
+       "hex": "#5f5d50"
+      }
+     ]
+    },
+    {
+     "desc": "GR86 2.4 A/T",
+     "code": "ZN8-FKE7 UX",
+     "colours": [
+      {
+       "name": "IGNITION RED",
+       "code": "",
+       "hex": "#e11e26"
+      },
+      {
+       "name": "CRYSTAL WHITE PEARL",
+       "code": "",
+       "hex": "#f5f5f5"
+      },
+      {
+       "name": "CRYSTAL BLACK SILICA",
+       "code": "",
+       "hex": "#101010"
+      },
+      {
+       "name": "MAGNETITE GRAY METALLIC",
+       "code": "",
+       "hex": "#5f5d50"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "harrier-hev",
+   "model": "HARRIER",
+   "variants": [
+    {
+     "desc": "HARRIER 2.5 HEV",
+     "code": "AXUH80R-ANXSB RJ",
+     "colours": [
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "GREY METALLIC",
+       "code": "1G3",
+       "hex": "#333538"
+      },
+      {
+       "name": "PRECIOUS BLACK",
+       "code": "219",
+       "hex": "#08080a"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hiace",
+   "model": "HIACE PANEL VAN",
+   "variants": [
+    {
+     "desc": "HIACE PANEL VAN 3.0 D M/T",
+     "code": "KDH201R-RBMDYE L4",
+     "colours": [
+      {
+       "name": "SOLID WHITE",
+       "code": "",
+       "hex": "#d5d8cf"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "all-new-hiace",
+   "model": "HIACE SLWB",
+   "variants": [
+    {
+     "desc": "HIACE SLWB 2.8D AT WINDOW VAN",
+     "code": "GDH321R-EDTDYSW",
+     "colours": [
+      {
+       "name": "SOLID WHITE",
+       "code": "",
+       "hex": "#d5d8cf"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hilux",
+   "model": "HILUX",
+   "variants": [
+    {
+     "desc": "HILUX S/CAB 2.4 MT 4X4",
+     "code": "GUN125R-BEFLXE Q1",
+     "colours": [
+      {
+       "name": "BRONZE MICA METALLIC",
+       "code": "",
+       "hex": "#4e4a43"
+      },
+      {
+       "name": "PHANTOM BROWN METALLIC",
+       "code": "",
+       "hex": "#4a302e"
+      },
+      {
+       "name": "CRIMSON SPARK RED METALLIC",
+       "code": "",
+       "hex": "#740013"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "MEDIUM SILVER METALLIC",
+       "code": "",
+       "hex": "#6a7376"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "SOLID WHITE",
+       "code": "",
+       "hex": "#d5d8cf"
+      }
+     ]
+    },
+    {
+     "desc": "HILUX D/CAB 2.4E MT 4X4",
+     "code": "GUN125R-DEFSXE Q2",
+     "colours": [
+      {
+       "name": "BRONZE MICA METALLIC",
+       "code": "",
+       "hex": "#4e4a43"
+      },
+      {
+       "name": "PHANTOM BROWN METALLIC",
+       "code": "",
+       "hex": "#4a302e"
+      },
+      {
+       "name": "CRIMSON SPARK RED METALLIC",
+       "code": "",
+       "hex": "#740013"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "MEDIUM SILVER METALLIC",
+       "code": "",
+       "hex": "#6a7376"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "SOLID WHITE",
+       "code": "",
+       "hex": "#d5d8cf"
+      }
+     ]
+    },
+    {
+     "desc": "HILUX D/CAB 2.4E AT 4X4",
+     "code": "GUN125R-DETSXE Q3",
+     "colours": [
+      {
+       "name": "BRONZE MICA METALLIC",
+       "code": "",
+       "hex": "#4e4a43"
+      },
+      {
+       "name": "PHANTOM BROWN METALLIC",
+       "code": "",
+       "hex": "#4a302e"
+      },
+      {
+       "name": "CRIMSON SPARK RED METALLIC",
+       "code": "",
+       "hex": "#740013"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "MEDIUM SILVER METALLIC",
+       "code": "",
+       "hex": "#6a7376"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "SOLID WHITE",
+       "code": "",
+       "hex": "#d5d8cf"
+      }
+     ]
+    },
+    {
+     "desc": "HILUX D/CAB 2.4V AT 4X4",
+     "code": "GUN125R-DETHXE Q4",
+     "colours": [
+      {
+       "name": "BRONZE MICA METALLIC",
+       "code": "",
+       "hex": "#4e4a43"
+      },
+      {
+       "name": "PHANTOM BROWN METALLIC",
+       "code": "",
+       "hex": "#4a302e"
+      },
+      {
+       "name": "CRIMSON SPARK RED METALLIC",
+       "code": "",
+       "hex": "#740013"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "MEDIUM SILVER METALLIC",
+       "code": "",
+       "hex": "#6a7376"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "SOLID WHITE",
+       "code": "",
+       "hex": "#d5d8cf"
+      }
+     ]
+    },
+    {
+     "desc": "HILUX D/CAB 2.8 ROGUE AT 4X4",
+     "code": "GUN126R-DETHXE Q5",
+     "colours": [
+      {
+       "name": "BRONZE MICA METALLIC",
+       "code": "",
+       "hex": "#4e4a43"
+      },
+      {
+       "name": "PHANTOM BROWN METALLIC",
+       "code": "",
+       "hex": "#4a302e"
+      },
+      {
+       "name": "CRIMSON SPARK RED METALLIC",
+       "code": "",
+       "hex": "#740013"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "MEDIUM SILVER METALLIC",
+       "code": "",
+       "hex": "#6a7376"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "SOLID WHITE",
+       "code": "",
+       "hex": "#d5d8cf"
+      }
+     ]
+    },
+    {
+     "desc": "HILUX D/CAB 2.8 GR-S AT 4X4",
+     "code": "GUN126R-DETHXE Q6",
+     "colours": [
+      {
+       "name": "SUPER WHITE II",
+       "code": "040",
+       "hex": "#e3e4e0"
+      },
+      {
+       "name": "CRIMSON SPARK RED METALLIC",
+       "code": "",
+       "hex": "#740013"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hilux-bev",
+   "model": "HILUX BEV",
+   "variants": [
+    {
+     "desc": "HILUX D/CAB BEV 4X4",
+     "code": "XPN225R-DTDHSE BH",
+     "colours": [
+      {
+       "name": "ASH",
+       "code": "1M2",
+       "hex": "#50505a"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "SUPER WHITE 2",
+       "code": "040",
+       "hex": "#e3e4e0"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "zenix",
+   "model": "INNOVA ZENIX",
+   "variants": [
+    {
+     "desc": "INNOVA ZENIX 2.0V",
+     "code": "MAGA10R-BRXHBE MC",
+     "colours": [
+      {
+       "name": "GREY METALLIC",
+       "code": "1G3",
+       "hex": "#333538"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#84888c"
+      }
+     ]
+    },
+    {
+     "desc": "INNOVA ZENIX 2.0 HEV",
+     "code": "MAGH10R-BPXHBE MD",
+     "colours": [
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "GREY METALLIC",
+       "code": "1G3",
+       "hex": "#333538"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#84888c"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "urban-cruiser",
+   "model": "URBAN CRUISER",
+   "variants": [
+    {
+     "desc": "URBAN CRUISER",
+     "code": "SZ181CR-ZG06 UC",
+     "colours": [
+      {
+       "name": "LAND BREEZE GREEN",
+       "code": "",
+       "hex": "#656656"
+      },
+      {
+       "name": "GRANDEUR GREY",
+       "code": "",
+       "hex": "#88898d"
+      },
+      {
+       "name": "PEARL ARCTIC WHITE",
+       "code": "",
+       "hex": "#fbfbf9"
+      },
+      {
+       "name": "PEARL BLUISH BLACK",
+       "code": "",
+       "hex": "#02252b"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "vellfire",
+   "model": "VELLFIRE",
+   "variants": [
+    {
+     "desc": "VELLFIRE 2.5 AT",
+     "code": "AGH40R-PFXTKE VN",
+     "colours": [
+      {
+       "name": "NEUTRAL BLACK",
+       "code": "",
+       "hex": "#020203"
+      },
+      {
+       "name": "PRECIOUS METAL",
+       "code": "1L5",
+       "hex": "#545656"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL MC",
+       "code": "089",
+       "hex": "#fcfcfc"
+      }
+     ]
+    },
+    {
+     "desc": "VELLFIRE 2.5 HEV AT EXECUTIVE LOUNGE",
+     "code": "AAHH40R-PFXZBE VV",
+     "colours": [
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "NEUTRAL BLACK",
+       "code": "",
+       "hex": "#020203"
+      },
+      {
+       "name": "PRECIOUS METAL",
+       "code": "1L5",
+       "hex": "#545656"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "veloz",
+   "model": "VELOZ",
+   "variants": [
+    {
+     "desc": "VELOZ 1.5 A/T",
+     "code": "W151RE-LBQFM HK",
+     "colours": [
+      {
+       "name": "BLUE METALLIC WITH BLACK ROOF",
+       "code": ""
+      },
+      {
+       "name": "SILVER METALLIC WITH BLACK ROOF",
+       "code": ""
+      },
+      {
+       "name": "METALLIC BLUISH BLACK",
+       "code": "",
+       "hex": "#000000"
+      },
+      {
+       "name": "RED METALLIC",
+       "code": "",
+       "hex": "#4f000a"
+      },
+      {
+       "name": "WHITE",
+       "code": "",
+       "hex": "#d5d8cf"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "vios-hev",
+   "model": "VIOS",
+   "variants": [
+    {
+     "desc": "VIOS 1.5E AT",
+     "code": "NGC102R-EEXMKE 1C",
+     "colours": [
+      {
+       "name": "SPICY SCARLET SE",
+       "code": "",
+       "hex": "#990300"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "NEBULA BLUE METALLIC",
+       "code": "",
+       "hex": "#203079"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      }
+     ]
+    },
+    {
+     "desc": "VIOS 1.5G AT",
+     "code": "NGC102R-EEXHKE 1D",
+     "colours": [
+      {
+       "name": "SPICY SCARLET SE",
+       "code": "",
+       "hex": "#990300"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "NEBULA BLUE METALLIC",
+       "code": "",
+       "hex": "#203079"
+      },
+      {
+       "name": "ATTITUDE BLACK MICA",
+       "code": "218",
+       "hex": "#030507"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      }
+     ]
+    },
+    {
+     "desc": "VIOS 1.5 HEV AT",
+     "code": "NYC100R-EEXHBE 1E",
+     "colours": [
+      {
+       "name": "CELESTITE GREY METALLIC",
+       "code": "",
+       "hex": "#4c5662"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "SPICY SCARLET SE",
+       "code": "",
+       "hex": "#990300"
+      },
+      {
+       "name": "ATTITUDE BLACK",
+       "code": "",
+       "hex": "#030507"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      }
+     ]
+    },
+    {
+     "desc": "VIOS 1.5 HEV GR-S AT",
+     "code": "NYC100R-EEXGBE 1F",
+     "colours": [
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "SPICY SCARLET SE",
+       "code": "",
+       "hex": "#990300"
+      },
+      {
+       "name": "ATTITUDE BLACK",
+       "code": "",
+       "hex": "#030507"
+      },
+      {
+       "name": "2-TONE PLATINUM WHITE PEARL",
+       "code": "2PS"
+      },
+      {
+       "name": "2-TONE SPICY SCARLET SE",
+       "code": ""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "yaris",
+   "model": "YARIS",
+   "variants": [
+    {
+     "desc": "YARIS 1.5E AT",
+     "code": "NSP151R-BHXRKE 2E",
+     "colours": [
+      {
+       "name": "2-TONE RED MICA METALLIC",
+       "code": "2QL",
+       "hex": "#7b0010"
+      },
+      {
+       "name": "2-TONE PLATINUM WHITE PEARL",
+       "code": "2PS",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "RED MICA METALLIC",
+       "code": "3R3",
+       "hex": "#7b0010"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      }
+     ]
+    },
+    {
+     "desc": "YARIS 1.5G AT",
+     "code": "NSP151R-BHXGKE 2F",
+     "colours": [
+      {
+       "name": "2-TONE RED MICA METALLIC",
+       "code": "2QL",
+       "hex": "#7b0010"
+      },
+      {
+       "name": "2-TONE PLATINUM WHITE PEARL",
+       "code": "2PS",
+       "hex": "#fcfcfc"
+      },
+      {
+       "name": "RED MICA METALLIC",
+       "code": "3R3",
+       "hex": "#7b0010"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "PLATINUM WHITE PEARL",
+       "code": "089",
+       "hex": "#fcfcfc"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "toyota-yaris-cros-and-hev",
+   "model": "YARIS CROSS",
+   "variants": [
+    {
+     "desc": "YARIS CROSS 1.5S",
+     "code": "NGC200R-EHXHKE 4A",
+     "colours": [
+      {
+       "name": "DARK TURQUOISE",
+       "code": "",
+       "hex": "#091449"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "ATTITUDE BLACK",
+       "code": "",
+       "hex": "#030507"
+      },
+      {
+       "name": "SPICY SCARLET SE",
+       "code": "",
+       "hex": "#990300"
+      },
+      {
+       "name": "PLATINUM PEARL WHITE",
+       "code": "",
+       "hex": "#fcfcfc"
+      }
+     ]
+    },
+    {
+     "desc": "YARIS CROSS 1.5S HEV",
+     "code": "NYC200R-EHXHBE 4B",
+     "colours": [
+      {
+       "name": "DARK TURQUOISE",
+       "code": "",
+       "hex": "#091449"
+      },
+      {
+       "name": "SILVER METALLIC",
+       "code": "1D4",
+       "hex": "#9da2a4"
+      },
+      {
+       "name": "ATTITUDE BLACK",
+       "code": "",
+       "hex": "#030507"
+      },
+      {
+       "name": "SPICY SCARLET SE",
+       "code": "",
+       "hex": "#990300"
+      },
+      {
+       "name": "PLATINUM PEARL WHITE",
+       "code": "",
+       "hex": "#fcfcfc"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
