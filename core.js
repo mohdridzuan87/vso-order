@@ -94,7 +94,7 @@
   /* "- LOAN AMOUNT RM 70000" -> "- LOAN AMOUNT RM 70,000.00": an amount of more than 4 digits is shown with
      thousands commas and two decimals; a shorter amount is left as typed. */
   function formatLoanRemarks(text) {
-    return String(text === undefined || text === null ? "" : text).replace(
+    return formatTenureLive(String(text === undefined || text === null ? "" : text), 0, "").text.replace(
       /(LOAN AMOUNT\s*RM)\s*([0-9][0-9,]*(?:\.[0-9]+)?)/i,
       function (m, label, amt) {
         var n = parseFloat(amt.replace(/,/g, ""));
@@ -136,6 +136,38 @@
       }
       nc = head.length + pos;
     }
+    return { text: out, caret: nc };
+  }
+  /* Loan tenure: key in a number and " YEAR" / " YEARS" is added ("1" -> "1 YEAR", "9" -> "9 YEARS"). It follows the
+     number as it changes (1 -> 12 gives YEARS), and is removed again if the number is deleted. Anything else you
+     type there (e.g. "108 MONTHS") is left alone, and a unit you delete is not put back unless the number changes.
+     prev = the text before this keystroke. Returns {text, caret}. */
+  var TENURE_RE = /^([ \t]*-?[ \t]*LOAN TENURE)([ \t]*)(\d*)([ \t]*)(YEARS?)?[ \t]*$/im;
+  function formatTenureLive(text, caret, prev) {
+    text = String(text === undefined || text === null ? "" : text);
+    var m = TENURE_RE.exec(text);
+    if (!m) return { text: text, caret: caret };
+    var lead = m[1], digits = m[3], unit = m[5];
+    var oldLine = m[0], newLine;
+    if (digits) {
+      var pm = TENURE_RE.exec(String(prev || ""));
+      var numberChanged = !pm || pm[3] !== digits;
+      if (!unit && !numberChanged) return { text: text, caret: caret }; /* you deleted the unit on purpose */
+      newLine = lead + " " + digits + " " + (parseInt(digits, 10) === 1 ? "YEAR" : "YEARS");
+    } else if (unit) {
+      newLine = lead + " "; /* the number was deleted: take the unit away too */
+    } else return { text: text, caret: caret };
+    if (newLine === oldLine) return { text: text, caret: caret };
+    var out = text.slice(0, m.index) + newLine + text.slice(m.index + oldLine.length);
+    var c = typeof caret === "number" ? caret : out.length;
+    var digitsStartOld = m.index + lead.length + m[2].length;
+    var digitsEndOld = digitsStartOld + digits.length;
+    var digitsStartNew = m.index + lead.length + 1;
+    var nc;
+    if (c <= m.index + lead.length) nc = c;
+    else if (!digits) nc = m.index + newLine.length;
+    else if (c >= digitsEndOld) nc = digitsStartNew + digits.length; /* stay right after the number */
+    else nc = digitsStartNew + Math.max(0, c - digitsStartOld);
     return { text: out, caret: nc };
   }
   function isUntouchedRemarks(v) { return String(v || "").replace(/\s+/g, "").toUpperCase() === REMARKS_TEMPLATE.replace(/\s+/g, ""); }
@@ -456,7 +488,7 @@
   return {
     ACC: ACC, accKey: accKey, NOTES: NOTES, COMPANY: COMPANY, num: num, compute: compute, fmtAmt: fmtAmt,
     isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS,
-    REMARKS_TEMPLATE: REMARKS_TEMPLATE, formatLoanRemarks: formatLoanRemarks, formatLoanLive: formatLoanLive, isUntouchedRemarks: isUntouchedRemarks, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress, formatTel: formatTel,
+    REMARKS_TEMPLATE: REMARKS_TEMPLATE, formatLoanRemarks: formatLoanRemarks, formatLoanLive: formatLoanLive, formatTenureLive: formatTenureLive, isUntouchedRemarks: isUntouchedRemarks, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress, formatTel: formatTel,
     fmtDate: fmtDate, today: today, emptyOrder: emptyOrder, fileName: fileName, buildPdf: buildPdf, money: money
   };
 });

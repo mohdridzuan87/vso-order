@@ -244,6 +244,7 @@
     /* Remarks: start typing the loan amount straight after "RM ", and show it as 70,000.00 once you leave the box */
     form.addEventListener("focusin", function (e) {
       var t = e.target;
+      if (t.getAttribute && t.getAttribute("data-k") === "remarks") t._prev = t.value; /* text before the next keystroke */
       if (!t.getAttribute || t.getAttribute("data-k") !== "remarks" || !V.isUntouchedRemarks(t.value)) return;
       var at = t.value.indexOf("\n");
       if (at < 0) at = t.value.length;
@@ -363,12 +364,15 @@
         try { t.setSelectionRange(s, en); } catch (err) { /* not selectable */ }
       }
     }
-    if (k === "remarks" && t.tagName === "TEXTAREA") { /* loan amount over 4 digits shows as 70,000.00 while you type */
+    if (k === "remarks" && t.tagName === "TEXTAREA") {
+      /* loan amount over 4 digits shows as 70,000.00 while you type; a tenure number gets " YEAR" / " YEARS" */
       var live = V.formatLoanLive(t.value, t.selectionStart);
+      live = V.formatTenureLive(live.text, live.caret, t._prev);
       if (live.text !== t.value) {
         t.value = live.text;
         try { t.setSelectionRange(live.caret, live.caret); } catch (err) { /* not selectable */ }
       }
+      t._prev = t.value;
     }
     current.data[k] = t.value;
     if (k === "address") autoPostcode();
