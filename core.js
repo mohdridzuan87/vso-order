@@ -89,7 +89,7 @@
   var OUTLET_ADDRESS = "LOT 7159, 8, JLN KLANG BANTING, TAMAN PERWIRA, 42500 TELOK PANGLIMA GARANG, SELANGOR";
   /* new orders start with the outlet address filled in; it can still be edited */
   /* Remarks start with the loan lines to fill in */
-  var REMARKS_TEMPLATE = "- LOAN AMOUNT RM \nLOAN TENURE ";
+  var REMARKS_TEMPLATE = "- LOAN AMOUNT RM \n- LOAN TENURE ";
   function emptyOrder() { return { date: today(), outlet_address: OUTLET_ADDRESS, remarks: REMARKS_TEMPLATE }; }
   /* "- LOAN AMOUNT RM 70000" -> "- LOAN AMOUNT RM 70,000.00": an amount of more than 4 digits is shown with
      thousands commas and two decimals; a shorter amount is left as typed. */
