@@ -241,6 +241,23 @@
       var t = e.target;
       if (t.getAttribute && t.getAttribute("data-amt") && V.isNumText(t.value)) t.value = t.value.replace(/,/g, "");
     });
+    /* Remarks: start typing the loan amount straight after "RM ", and show it as 70,000.00 once you leave the box */
+    form.addEventListener("focusin", function (e) {
+      var t = e.target;
+      if (!t.getAttribute || t.getAttribute("data-k") !== "remarks" || !V.isUntouchedRemarks(t.value)) return;
+      var at = t.value.indexOf("\n");
+      if (at < 0) at = t.value.length;
+      setTimeout(function () { try { t.setSelectionRange(at, at); } catch (err) { /* not selectable */ } }, 0);
+    });
+    form.addEventListener("focusout", function (e) {
+      var t = e.target;
+      if (!t.getAttribute || t.getAttribute("data-k") !== "remarks" || !current) return;
+      var f = V.formatLoanRemarks(t.value);
+      if (f === t.value) return;
+      t.value = f;
+      current.data.remarks = f;
+      scheduleSave();
+    });
     /* phone numbers: tidy into Malaysian format when you leave the field (012-345 6789, 03-1234 5678) */
     form.addEventListener("focusout", function (e) {
       var t = e.target, k = t.getAttribute && t.getAttribute("data-k");
@@ -480,7 +497,8 @@
       dup.addEventListener("click", function () {
         var copy = { id: uid(), updated: Date.now(), data: JSON.parse(JSON.stringify(o.data)) };
         delete copy.data.sig_customer; delete copy.data.sig_exec; copy.data.orderno = ""; copy.data.date = V.today();
-        orders.unshift(copy); saveAll(orders); renderList(); toast("Copied - signatures and order no. cleared");
+        copy.data.remarks = V.REMARKS_TEMPLATE; /* the loan details belong to the previous customer */
+        orders.unshift(copy); saveAll(orders); renderList(); toast("Copied - signatures, order no. and remarks cleared");
       });
       del.addEventListener("click", function () {
         if (!confirm("Delete the order for " + (d.name || "this customer") + "? This cannot be undone.")) return;

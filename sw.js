@@ -1,7 +1,7 @@
 /* Offline cache for the VSO app. Bump VERSION when files change.
    Online: always fetch fresh files (network first), then refresh the offline copy.
    Offline: use the saved copy. */
-var VERSION = "vso-v18";
+var VERSION = "vso-v19";
 var FILES = ["./", "index.html", "style.css", "core.js", "app.js", "vendor/jspdf.umd.min.js",
   "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png"];
 

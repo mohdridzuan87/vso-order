@@ -88,7 +88,22 @@
   }
   var OUTLET_ADDRESS = "LOT 7159, 8, JLN KLANG BANTING, TAMAN PERWIRA, 42500 TELOK PANGLIMA GARANG, SELANGOR";
   /* new orders start with the outlet address filled in; it can still be edited */
-  function emptyOrder() { return { date: today(), outlet_address: OUTLET_ADDRESS }; }
+  /* Remarks start with the loan lines to fill in */
+  var REMARKS_TEMPLATE = "- LOAN AMOUNT RM \nLOAN TENURE ";
+  function emptyOrder() { return { date: today(), outlet_address: OUTLET_ADDRESS, remarks: REMARKS_TEMPLATE }; }
+  /* "- LOAN AMOUNT RM 70000" -> "- LOAN AMOUNT RM 70,000.00": an amount of more than 4 digits is shown with
+     thousands commas and two decimals; a shorter amount is left as typed. */
+  function formatLoanRemarks(text) {
+    return String(text === undefined || text === null ? "" : text).replace(
+      /(LOAN AMOUNT\s*RM)\s*([0-9][0-9,]*(?:\.[0-9]+)?)/i,
+      function (m, label, amt) {
+        var n = parseFloat(amt.replace(/,/g, ""));
+        var whole = amt.replace(/,/g, "").split(".")[0].replace(/^0+/, "");
+        if (!isFinite(n) || whole.length <= 4) return label + " " + amt;
+        return label + " " + money(n);
+      });
+  }
+  function isUntouchedRemarks(v) { return String(v || "").replace(/\s+/g, "").toUpperCase() === REMARKS_TEMPLATE.replace(/\s+/g, ""); }
 
   function fileName(d) {
     var parts = ["VSO", d.orderno || "", d.name || "", fmtDate(d.date).replace(/\//g, "-")];
@@ -353,6 +368,7 @@
       else if (r[0] === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v).trim())) out.push({ key: "email", label: "Email", msg: "not a valid email" });
       else if (["selling", "reg_fee", "road_tax", "ins_amt"].indexOf(r[0]) >= 0 && !isNumText(v)) out.push({ key: r[0], label: r[1], msg: "must be a number" });
       else if (r[0] === "selling" && num(v) <= 0) out.push({ key: "selling", label: r[1], msg: "must be more than RM 0" });
+      else if (r[0] === "remarks" && isUntouchedRemarks(v)) out.push({ key: "remarks", label: r[1], msg: "fill in the loan amount and tenure (or replace with your own note)" });
     });
     var c = compute(d);
     if (c.totSales <= 0) {
@@ -377,6 +393,7 @@
   /* Fit everything on one A4 page: end-y is linear in row height, so solve for it. */
   function buildPdf(jsPDF, d0) {
     var d = capsCopy(d0); /* PDF text is always CAPITALS (except email), even for older saved orders */
+    d.remarks = formatLoanRemarks(d.remarks);
     ["tel_home", "tel_mobile", "tel_office"].forEach(function (k) { d[k] = formatTel(d[k]); });
     var limit = PH - M;
     function endAt(rh) { return draw(new jsPDF({ unit: "pt", format: "a4" }), d, rh); }
@@ -403,7 +420,8 @@
 
   return {
     ACC: ACC, accKey: accKey, NOTES: NOTES, COMPANY: COMPANY, num: num, compute: compute, fmtAmt: fmtAmt,
-    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress, formatTel: formatTel,
+    isNumText: isNumText, amtOrText: amtOrText, isCapsKey: isCapsKey, capsCopy: capsCopy, OUTLET_ADDRESS: OUTLET_ADDRESS,
+    REMARKS_TEMPLATE: REMARKS_TEMPLATE, formatLoanRemarks: formatLoanRemarks, isUntouchedRemarks: isUntouchedRemarks, REQUIRED: REQUIRED, validate: validate, postcodeFromAddress: postcodeFromAddress, formatTel: formatTel,
     fmtDate: fmtDate, today: today, emptyOrder: emptyOrder, fileName: fileName, buildPdf: buildPdf, money: money
   };
 });
